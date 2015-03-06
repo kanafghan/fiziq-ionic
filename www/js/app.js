@@ -49,11 +49,11 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
 
-  .state('app.browse', {
-    url: "/browse",
+  .state('app.done', {
+    url: "/done",
     views: {
       'menuContent': {
-        templateUrl: "templates/browse.html"
+        templateUrl: "templates/done.html"
       }
     }
   })
