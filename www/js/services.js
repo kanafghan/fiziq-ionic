@@ -168,5 +168,17 @@ angular.module('starter.services', [])
     };
 })
 
+.service('displayDone', function() {
+    this.sets = null;
+
+    this.setSets = function (s) {
+        this.sets = s;
+    };
+
+    this.getSets = function () {
+        return this.sets;
+    };
+})
+
 
 ;

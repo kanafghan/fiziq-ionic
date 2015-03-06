@@ -1,25 +1,17 @@
 <ion-view view-title="Done">
   <ion-content>
-    <h1 class="title padding-top padding-left">Well done!</h1>
     <ul>
-    	<li class="item item-icon-left"><i class="icon ion-trophy energized"></i>You hit a new PR for 10RM Backsquats!</li>
+    	<li class="item item-icon-left"><i class="icon ion-trophy energized"></i><strong>Well done!</strong></li>
     </ul>
     </div>
     <ul class="list">
-    	 <li class="item-divider padding-left">You logged <strong>3 sets</strong> of <strong>Backsquats</strong> in <strong>15:12</strong></li>
-	    <li class="item">
-	        <strong>Set: 01:32 - 102kg, 12 Reps</strong>
-	      
-	    </li>
-	    <li class="item">
-	        <strong>Set: 08:17 - 110kg, 10 reps</strong>
-	         
-	    </li>
-	    <li class="item">
-	        <strong>Set: 10:24 - 116 kg, 5 reps</strong>
-	        
-	    </li>
+    	 <li class="item-divider padding-left">You logged <strong>{{sets.length ? sets.length : 0}} sets</strong>.</li>
 	</ul>
+    <ion-list class="list">
+        <ion-item ng-repeat="set in sets" class="item item-icon-right">
+            <strong>Set: {{set.clock|date:'HH:mm:ss'}} - {{set.weight}} kg, {{set.reps}} Reps</strong>
+        </ion-item>
+    </ion-list>
     <a class="button button-block button-positive" href="#/app/selection">
         OK!
     </a>

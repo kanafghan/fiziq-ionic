@@ -19,7 +19,7 @@
         <a nav-clear menu-close ng-click="$ionicGoBack($event)" class="button button-block button-outline button-positive">
             Switch exercise
         </a>
-        <a ng-click="done()" href="#/app/done" class="button button-block button-outline button-positive">
+        <a ng-click="done()" class="button button-block button-outline button-positive">
             Finish workout
         </a>
         <div class="item item-divider">
@@ -28,7 +28,7 @@
 
         <ion-list class="list">
             <ion-item ng-repeat="set in sets" class="item item-icon-right">
-                <strong>Set: {{set.clock|date:'HH:mm:ss'}} - {{set.weight}}kg, {{set.reps}} Reps</strong>
+                <strong>Set: {{set.clock|date:'HH:mm:ss'}} - {{set.weight}} kg, {{set.reps}} Reps</strong>
                 <i class="icon ion-close-circled assertive"></i>
             </ion-item>
         </ion-list>

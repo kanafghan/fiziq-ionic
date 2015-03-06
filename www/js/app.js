@@ -64,7 +64,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     url: "/done",
     views: {
       'menuContent': {
-        templateUrl: "templates/done.html"
+        templateUrl: "templates/done.html",
+        controller: 'DoneCtrl'
       }
     }
   })
