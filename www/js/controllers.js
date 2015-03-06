@@ -67,4 +67,34 @@ angular.module('starter.controllers', [])
     set.reps = '';
     set.weight = '';
   }
-});
+})
+
+.controller('SelectionCtrl', function($scope, muscleGroups, workouts) {
+  $scope.muscleGroups = muscleGroups;
+  $scope.selectedMuscleGroup = muscleGroups[0];
+  $scope.selectedWorkout = workouts[muscleGroups[0].label][0];
+  
+  var getWorkoutsBasedOnMuscleGroupSelection = function () {
+    for (var key in workouts) {
+      if (key == $scope.selectedMuscleGroup.label) {
+        return workouts[key];
+      }
+    }
+
+    return [];
+  };
+  $scope.workouts = getWorkoutsBasedOnMuscleGroupSelection();
+
+  $scope.updateWorkouts = function () {
+    $scope.workouts = getWorkoutsBasedOnMuscleGroupSelection();
+
+    console.log('MG selected: ' +  + $scope.selectedMuscleGroup.label);
+  };
+
+  $scope.doSelect = function () {
+    console.log('Selected Muscle Group: ' + $scope.selectedMuscleGroup.label);
+    console.log('Selected Workout: ' + $scope.selectedWorkout.label);
+  };
+})
+
+;

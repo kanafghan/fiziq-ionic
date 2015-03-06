@@ -3,28 +3,24 @@
         <div class="list">
             <label class="item item-input item-select">
                 <div class="input-label">
-                    Muscle groups
+                    Muscle Group:
                 </div>
-                <select>
-                    <option value="1">Arms</option>
-                    <option value="2">Legs</option>
-                    <option value="3">Core</option>
-                    <option value="4">Mind</option>
+                <select ng-options="item.label for item in muscleGroups track by item.label"
+                        ng-model="$parent.selectedMuscleGroup" 
+                        ng-change="updateWorkouts()">
                 </select>
             </label>
             <label class="item item-input item-select">
                 <div class="input-label">
-                    Excercise
+                    Excercise:
                 </div>
-                <select>
-                    <option value="1">Backsquat</option>
-                    <option value="2">Frontsquat</option>
-                    <option value="3">Deadlift</option>
-                    <option value="4">Snatch</option>
+                <select ng-options="item.label for item in workouts"
+                        ng-model="$parent.selectedWorkout"
+                        ng-change="doSelect()">
                 </select>
             </label>
             <ion-item href="#/app/workout">
-                Click to a workout
+                Start Workout
             </ion-item>
         </div>
     </ion-content>
