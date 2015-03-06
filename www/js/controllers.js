@@ -67,11 +67,16 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('SelectionCtrl', function($scope, muscleGroups, workouts) {
+.controller('SelectionCtrl', function($log, $scope, muscleGroups, workouts, activeWorkoutSession, WorkoutSession, Workout, activeWorkout) {
+
+  if (!activeWorkoutSession.getWorkoutSession()) {
+    activeWorkoutSession.setWorkoutSession(new WorkoutSession());
+  };
+
   $scope.muscleGroups = muscleGroups;
   $scope.selectedMuscleGroup = muscleGroups[0];
   $scope.selectedWorkout = workouts[muscleGroups[0].label][0];
-  
+
   var getWorkoutsBasedOnMuscleGroupSelection = function () {
     for (var key in workouts) {
       if (key == $scope.selectedMuscleGroup.label) {
@@ -92,6 +97,13 @@ angular.module('starter.controllers', [])
   $scope.doSelect = function () {
     console.log('Selected Muscle Group: ' + $scope.selectedMuscleGroup.label);
     console.log('Selected Workout: ' + $scope.selectedWorkout.label);
+
+    var session = activeWorkoutSession.getWorkoutSession();
+    var newWorkout = new Workout($scope.selectedWorkout.label);
+    session.addWorkout(newWorkout);
+    activeWorkout.setWorkout(newWorkout);
+
+    console.log(activeWorkoutSession.getWorkoutSession());
   };
 })
 
