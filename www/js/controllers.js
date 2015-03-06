@@ -50,16 +50,14 @@ angular.module('starter.controllers', [])
 .controller('WorkoutCtrl', function($scope, $interval) {
   $scope.sets = [];
 
-  $scope.clock = new Date;
+  $scope.clock = new Date(0, 0, 0, 0, 0, 0, 0);
   $interval(function () {
-    $scope.clock = new Date();
+    $scope.clock.setSeconds($scope.clock.getSeconds() + 1)
   }, 1000);
 
-  $scope.addSet = function (set) {
-    $scope.sets.push({timestamp:new Date(), reps:set.reps, weight:set.weight});
+  $scope.addSet = function (clock, set) {
+    $scope.sets.push({clock:clock.valueOf(), reps:set.reps, weight:set.weight});
     $scope.sets.reverse();
-    set.reps = '';
-    set.weight = '';
   };
 
   $scope.done = function () {

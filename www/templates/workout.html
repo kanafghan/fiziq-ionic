@@ -1,6 +1,6 @@
 <ion-view view-title="Workout">
     <ion-content>
-        <h1 class="title padding-top" style="text-align:center;">{{clock|date:'HH:mm:ss'}}</h1>
+        <h1 class="title padding-top" style="text-align:center;">{{clock|date:'mm:ss'}}</h1>
         <div class="list">
             <label class="item item-input item-select">
                 <span class="input-label">Reps</span>
@@ -11,7 +11,7 @@
                 <select ng-model="set.weight" ng-options="n for n in [] | range:1:500"></select>
             </label>
         </div>
-        <button href="#" class="button button-block button-positive" ng-click="addSet(set)">
+        <button href="#" class="button button-block button-positive" ng-click="addSet(clock, set)">
             Add set
         </button>
     </div>
@@ -28,7 +28,7 @@
 
         <ion-list class="list">
             <ion-item ng-repeat="set in sets" class="item item-icon-right">
-                <strong>Set: {{set.timestamp|date:'HH:mm:ss'}} - {{set.weight}}kg, {{set.reps}} Reps</strong>
+                <strong>Set: {{set.clock|date:'HH:mm:ss'}} - {{set.weight}}kg, {{set.reps}} Reps</strong>
                 <i class="icon ion-close-circled assertive"></i>
             </ion-item>
         </ion-list>
