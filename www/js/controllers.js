@@ -47,13 +47,17 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('WorkoutCtrl', function($scope) {
-  $scope.sets = [
-    // { reps: '123', weight: '123'},
-  ];
+.controller('WorkoutCtrl', function($scope, $interval) {
+  $scope.sets = [];
+
+  $scope.clock = new Date;
+  $interval(function () {
+    $scope.clock = new Date();
+  }, 1000);
 
   $scope.addSet = function (set) {
-    $scope.sets.push({reps:set.reps, weight:set.weight});
+    $scope.sets.push({timestamp:new Date(), reps:set.reps, weight:set.weight});
+    $scope.sets.reverse();
     set.reps = '';
     set.weight = '';
   };

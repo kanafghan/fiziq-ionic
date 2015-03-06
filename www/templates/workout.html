@@ -1,6 +1,6 @@
 <ion-view view-title="Workout">
     <ion-content>
-        <h1 class="title padding-top" style="text-align:center;">15:34:12</h1>
+        <h1 class="title padding-top" style="text-align:center;">{{clock|date:'HH:mm:ss'}}</h1>
         <div class="list">
             <label class="item item-input item-floating-label">
                 <span class="input-label">Reps</span>
@@ -28,8 +28,8 @@
 
         <ion-list class="list">
             <ion-item ng-repeat="set in sets" class="item item-icon-right">
-                    <strong>Set: 01:32 - {{set.weight}}kg, {{set.reps}} Reps</strong>
-                    <i class="icon ion-close-circled assertive"></i>
+                <strong>Set: {{set.timestamp|date:'HH:mm:ss'}} - {{set.weight}}kg, {{set.reps}} Reps</strong>
+                <i class="icon ion-close-circled assertive"></i>
             </ion-item>
         </ion-list>
     </p>
