@@ -6,7 +6,7 @@
                     Muscle Group:
                 </div>
                 <select ng-options="item.label for item in muscleGroups track by item.label"
-                        ng-model="$parent.selectedMuscleGroup" 
+                        ng-model="$parent.selectedMuscleGroup"
                         ng-change="updateWorkouts()">
                 </select>
             </label>
@@ -19,9 +19,9 @@
                         ng-change="doSelect()">
                 </select>
             </label>
-            <ion-item href="#/app/workout">
+            <a class="button button-block button-positive" href="#/app/workout">
                 Start Workout
-            </ion-item>
+            </a>
         </div>
     </ion-content>
 </ion-view>

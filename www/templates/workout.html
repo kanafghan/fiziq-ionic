@@ -2,13 +2,13 @@
     <ion-content>
         <h1 class="title padding-top" style="text-align:center;">{{clock|date:'HH:mm:ss'}}</h1>
         <div class="list">
-            <label class="item item-input item-floating-label">
+            <label class="item item-input item-select">
                 <span class="input-label">Reps</span>
-                <input type="number" placeholder="Reps" ng-model="set.reps">
+                <select ng-model="set.reps" ng-options="n for n in [] | range:1:30"></select>
             </label>
-            <label class="item item-input item-floating-label">
+            <label class="item item-input item-select">
                 <span class="input-label">Weight</span>
-                <input type="number" placeholder="Weight" ng-model="set.weight">
+                <select ng-model="set.weight" ng-options="n for n in [] | range:1:30"></select>
             </label>
         </div>
         <button href="#" class="button button-block button-positive" ng-click="addSet(set)">
