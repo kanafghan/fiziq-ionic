@@ -4,44 +4,39 @@
         <div class="list">
             <label class="item item-input item-floating-label">
                 <span class="input-label">Reps</span>
-                <input type="text" placeholder="Reps">
+                <input type="number" placeholder="Reps" ng-model="set.reps">
             </label>
             <label class="item item-input item-floating-label">
                 <span class="input-label">Weight</span>
-                <input type="text" placeholder="Weight">
+                <input type="number" placeholder="Weight" ng-model="set.weight">
             </label>
-        </div>   
-        <button href="#" class="button button-block button-positive">
+        </div>
+        <button href="#" class="button button-block button-positive" ng-click="addSet(set)">
             Add set
         </button>
     </div>
-    <p> 
-        <a nav-clear menu-close ng-click="$ionicGoBack($event)" class="button button-block button-outline button-positive">    
+    <p>
+        <a nav-clear menu-close ng-click="$ionicGoBack($event)" class="button button-block button-outline button-positive">
             Switch exercise
         </a>
-    <a href="#/app/done" class="button button-block button-outline button-positive">
-        Finish workout
-    </a>
-    <div class="item item-divider">
-    Logged sets
-  </div>
-    <ul class="list">
-    <li class="item item-icon-right">
-        <strong>Set: 01:32 - 110kg, 12 Reps</strong>
-      <i class="icon ion-close-circled assertive"></i>
-    </li>
-    <li class="item item-icon-right">
-        <strong>Set: 08:17 - 110kg, 10 reps</strong>
-         <i class="icon ion-close-circled assertive"></i>
-    </li>
-    <li class="item item-icon-right">
-        <strong>Set: 10:24 - 116 kg, 5 reps</strong>
-         <i class="icon ion-close-circled assertive"></i>
-    </li>
-</ul>
-</p>
-  </ion-content>
-  <div class="bar bar-footer bar-balanced">
-    <div class="title">Set added!</div>
-  </div>
+        <a ng-click="done()" href="#/app/done" class="button button-block button-outline button-positive">
+            Finish workout
+        </a>
+        <div class="item item-divider">
+            Logged sets
+        </div>
+
+        <ion-list class="list">
+            <ion-item ng-repeat="set in sets">
+                <li class="item item-icon-right">
+                    <strong>Set: 01:32 - {{set.weight}}kg, {{set.reps}} Reps</strong>
+                    <i class="icon ion-close-circled assertive"></i>
+                </li>
+            </ion-item>
+        </ion-list>
+    </p>
+    </ion-content>
+    <div class="bar bar-footer bar-balanced">
+        <div class="title">Set added!</div>
+    </div>
 </ion-view>

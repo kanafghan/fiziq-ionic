@@ -45,4 +45,22 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
+})
+
+.controller('WorkoutCtrl', function($scope) {
+  $scope.sets = [
+    // { reps: '123', weight: '123'},
+  ];
+
+  $scope.addSet = function (set) {
+    $scope.sets.push({reps:set.reps, weight:set.weight});
+    set.reps = '';
+    set.weight = '';
+  };
+
+  $scope.done = function () {
+    $scope.sets = [];
+    set.reps = '';
+    set.weight = '';
+  }
 });
