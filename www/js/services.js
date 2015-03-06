@@ -99,4 +99,74 @@ angular.module('starter.services', [])
     ]
 })
 
+.factory('WorkoutSession', function() {
+    return function() {
+        var workouts = [];
+
+        this.addWorkout = function (workout) {
+            workouts[workouts.length] = workout;
+        };
+
+        this.getWorkouts = function () {
+            return workouts;
+        };
+    };
+})
+
+.factory('Workout', function() {
+    return function(name) {
+        this.name = name;
+        var workoutSets = [];
+
+        this.addWorkoutSet = function (set) {
+            workoutSets[workoutSets.length] = set;
+        };
+
+        this.getWorkoutSets = function () {
+            return workoutSets;
+        };
+    };
+})
+
+.factory('WorkoutSet', function() {
+    return function(weight, reps) {
+        this.weight = weight;
+        this.reps = reps;
+        var workoutSets = [];
+
+        this.addWorkoutSet = function (set) {
+            workoutSets[workoutSets.length] = set;
+        };
+
+        this.getWorkoutSets = function () {
+            return workoutSets;
+        };
+    };
+})
+
+.service('activeWorkoutSession', function() {
+    var workoutSession = null;
+
+    this.setWorkoutSession = function (ws) {
+        workoutSession = ws;
+    };
+
+    this.getWorkoutSession = function () {
+        return workoutSession;
+    };
+})
+
+.service('activeWorkout', function() {
+    var workout = null;
+
+    this.setWorkout = function (w) {
+        workout = w;
+    };
+
+    this.getWorkout = function () {
+        return workout;
+    };
+})
+
+
 ;
