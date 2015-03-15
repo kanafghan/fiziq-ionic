@@ -1,19 +1,20 @@
 <ion-view view-title="Done">
-  <ion-content>
-    <ul>
-    	<li class="item item-icon-left"><i class="icon ion-trophy energized"></i><strong>Well done!</strong></li>
-    </ul>
-    </div>
-    <ul class="list">
-    	 <li class="item-divider padding-left">You logged <strong>{{sets.length ? sets.length : 0}} sets</strong>.</li>
-	</ul>
-    <ion-list class="list">
-        <ion-item ng-repeat="set in sets" class="item item-icon-right">
-            <strong>Set: {{set.clock|date:'HH:mm:ss'}} - {{set.weight}} kg, {{set.reps}} Reps</strong>
-        </ion-item>
-    </ion-list>
-    <a class="button button-block button-positive" href="#/app/selection">
-        OK!
-    </a>
-  </ion-content>
+    <ion-content>
+        <ul>
+            <li class="item item-icon-left">
+                <i class="icon ion-trophy energized"></i><strong>Well done!</strong>
+            </li>
+        </ul>
+        <ul class="list">
+            <li class="item-divider padding-left">You logged <strong>{{sets.length ? sets.length : 0}} sets</strong>.</li>
+        </ul>
+        <ion-list class="list">
+            <ion-item ng-repeat="set in sets" class="item item-icon-right">
+                <strong>Set: {{set.clock|date:'HH:mm:ss'}} - {{set.weight}} kg, {{set.reps}} Reps</strong>
+            </ion-item>
+        </ion-list>
+        <a class="button button-block button-positive" href="#/app/selection">
+            OK!
+        </a>
+    </ion-content>
 </ion-view>

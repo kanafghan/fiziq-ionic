@@ -1,4 +1,4 @@
-angular.module('starter.services', [])
+angular.module('fiziq.services', [])
 
 .value('muscleGroups', [
     {label : 'Chest'},
@@ -179,6 +179,5 @@ angular.module('starter.services', [])
         return this.sets;
     };
 })
-
 
 ;

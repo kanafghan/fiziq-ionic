@@ -1,0 +1,26 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Registration</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeSignup()">Close</button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <p>Register to log your workout and train smarter.</p>
+        <form ng-submit="doSignup()">
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Name:</span>
+                    <input type="text" ng-model="signupData.name">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">E-mail:</span>
+                    <input type="email" ng-model="signupData.email">
+                </label>
+                <label class="item">
+                    <button class="button button-block button-positive" type="submit">Register</button>
+                </label>
+            </div>
+        </form>
+    </ion-content>
+</ion-modal-view>
