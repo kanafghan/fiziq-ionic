@@ -180,4 +180,31 @@ angular.module('fiziq.services', [])
     };
 })
 
+.service('user', function($localstorage) {
+    this.key = null;
+    this.name = null;
+    this.email = null;
+
+    this.load = function () {
+        var data = $localstorage.getObject('fiziq.user.data');
+        this.name = data.name;
+        this.email = data.email;
+    };
+
+    this.isRegistered = function () {
+        return 'true' === $localstorage.get('fiziq.user.registered', 'false');
+    };
+
+    this.register = function (name, email) {
+        this.name = name;
+        this.email = email;
+
+        $localstorage.setObject('fiziq.user.data', {
+            name : this.name,
+            email : this.email
+        });
+        $localstorage.set('fiziq.user.registered', 'true');
+    };
+})
+
 ;

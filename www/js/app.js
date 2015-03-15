@@ -1,6 +1,6 @@
 // Fiziq - Ionic App
 
-angular.module('fiziq', ['ionic', 'fiziq.controllers', 'fiziq.services'])
+angular.module('fiziq', ['ionic', 'ionic.utils', 'fiziq.controllers', 'fiziq.services'])
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {

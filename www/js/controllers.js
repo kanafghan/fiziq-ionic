@@ -1,6 +1,6 @@
 angular.module('fiziq.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, user) {
     // Form data for the registration modal
     $scope.signupData = {};
 
@@ -9,23 +9,19 @@ angular.module('fiziq.controllers', [])
         scope: $scope
     }).then(function(modal) {
         $scope.modal = modal;
+
+        if (!user.isRegistered()) {
+            $scope.modal.show();
+        }
     });
-
-    // Triggered in the registration modal to close it
-    $scope.closeSignup = function() {
-        $scope.modal.hide();
-    };
-
-    // Open the registration modal
-    $scope.signup = function() {
-        $scope.modal.show();
-    };
 
     // Perform the registration action when the user submits the registration form
     $scope.doSignup = function() {
         console.log('Registration', $scope.signupData);
 
-        // TODO do the registration here
+        user.register($scope.signupData.name, $scope.signupData.email);
+
+        $scope.modal.hide();
     };
 })
 
