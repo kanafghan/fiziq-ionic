@@ -116,10 +116,19 @@ angular.module('fiziq.services', [])
 .factory('Workout', function() {
     return function(name) {
         this.name = name;
+        this.duration = 0; // number of seconds
         var workoutSets = [];
 
         this.addWorkoutSet = function (set) {
             workoutSets[workoutSets.length] = set;
+        };
+
+        this.removeWorkoutSet = function (index) {
+            if (index >= workoutSets.length) {
+                return;
+            }
+
+            workoutSets.splice(index, 1);
         };
 
         this.getWorkoutSets = function () {
@@ -132,15 +141,6 @@ angular.module('fiziq.services', [])
     return function(weight, reps) {
         this.weight = weight;
         this.reps = reps;
-        var workoutSets = [];
-
-        this.addWorkoutSet = function (set) {
-            workoutSets[workoutSets.length] = set;
-        };
-
-        this.getWorkoutSets = function () {
-            return workoutSets;
-        };
     };
 })
 
@@ -165,18 +165,6 @@ angular.module('fiziq.services', [])
 
     this.getWorkout = function () {
         return workout;
-    };
-})
-
-.service('displayDone', function() {
-    this.sets = null;
-
-    this.setSets = function (s) {
-        this.sets = s;
-    };
-
-    this.getSets = function () {
-        return this.sets;
     };
 })
 

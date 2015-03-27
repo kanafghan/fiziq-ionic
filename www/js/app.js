@@ -37,7 +37,7 @@ angular.module('fiziq', ['ionic', 'ionic.utils', 'fiziq.controllers', 'fiziq.ser
     })
 
     .state('app.selection', {
-        url: "/selection",
+        url: "/selection?reset",
         views: {
             'menuContent': {
                 templateUrl: "templates/selection.html",
@@ -47,7 +47,7 @@ angular.module('fiziq', ['ionic', 'ionic.utils', 'fiziq.controllers', 'fiziq.ser
     })
 
     .state('app.workout', {
-        url: "/workout",
+        url: "/workout?reset",
         views: {
             'menuContent': {
                 templateUrl: "templates/workout.html",
