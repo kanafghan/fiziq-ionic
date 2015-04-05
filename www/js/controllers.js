@@ -85,11 +85,11 @@ angular.module('fiziq.controllers', [])
 
     $scope.newWorkout = function () {
         if (0 === $scope.sets.length) {
-            return $state.go('app.selection');
+            return $state.go('app.selection', {sessionId: $stateParams.sessionId});
         }
 
         processWorkout();
-        $state.go('app.selection');
+        $state.go('app.selection', {sessionId: $stateParams.sessionId});
     };
 
     $scope.done = function () {
@@ -107,26 +107,26 @@ angular.module('fiziq.controllers', [])
 
             console.log('Well done!');
 
-            $state.go('app.done');
+            $state.go('app.done', {sessionId: $stateParams.sessionId});
         });
     };
 
-    if ($stateParams.reset) {
-        var workout = activeWorkout.getWorkout();
-        $scope.workoutName = workout ? workout.name : 'N/A';
-        $scope.sets = workout ? workout.getWorkoutSets() : [];
+    var workout = activeWorkout.getWorkout();
+    $scope.workoutName = workout ? workout.name : 'N/A';
+    $scope.sets = workout ? workout.getWorkoutSets() : [];
 
-        $scope.clock = new Date(0, 0, 0, 0, 0, 0, 0);
-        $interval(function () {
-            $scope.clock.setSeconds($scope.clock.getSeconds() + 1)
-        }, 1000);
-    }
+    $scope.clock = new Date(0, 0, 0, 0, 0, 0, 0);
+    $interval(function () {
+        $scope.clock.setSeconds($scope.clock.getSeconds() + 1)
+    }, 1000);
 })
 
 .controller('DoneCtrl', function(
     $scope,
     $state,
+    $stateParams,
     $ionicHistory,
+    WorkoutSession,
     activeWorkoutSession
 ) {
     $scope.workouts = activeWorkoutSession.getWorkoutSession().getWorkouts();
@@ -139,7 +139,13 @@ angular.module('fiziq.controllers', [])
             disableAnimate: false,
             disableBack: true
         });
-        $state.go('app.selection', {reset: true});
+
+        activeWorkoutSession.getWorkoutSession().endSession();
+        activeWorkoutSession.save();
+
+        var session = new WorkoutSession();
+        activeWorkoutSession.setWorkoutSession(session);
+        $state.go('app.selection', {sessionId: session.id});
     };
 })
 
@@ -147,7 +153,6 @@ angular.module('fiziq.controllers', [])
     $scope,
     $state,
     $stateParams,
-    $ionicHistory,
     muscleGroups, 
     workouts,
     activeWorkoutSession, 
@@ -155,17 +160,12 @@ angular.module('fiziq.controllers', [])
     Workout, 
     activeWorkout
 ) {
-    if (!activeWorkoutSession.getWorkoutSession() || $stateParams.reset) {
-        activeWorkoutSession.setWorkoutSession(new WorkoutSession());
-    }
-
     var init = function () {
         $scope.muscleGroups = muscleGroups;
         $scope.workouts = [];
         $scope.selectedMuscleGroup = null;
         $scope.selectedWorkout = null;
     };
-    init();
 
     var processSelection = function () {
         console.log('Selected Muscle Group: ' + $scope.selectedMuscleGroup.label);
@@ -198,16 +198,17 @@ angular.module('fiziq.controllers', [])
     };
 
     $scope.start = function () {
-        if ($stateParams.reset) {
-            $ionicHistory.clearHistory();
-        }
-        $state.go('app.workout', {reset: $stateParams.reset});
+        $state.go('app.workout', {
+            sessionId: $stateParams.sessionId,
+            workoutId: activeWorkout.getWorkout().id
+        });
     };
 
-    if ($stateParams.reset) {
-        $state.reload();
-        init();
+    if (!activeWorkoutSession.getWorkoutSession()) {
+        activeWorkoutSession.setWorkoutSession(new WorkoutSession());
     }
+
+    init();
 })
 
 ;
