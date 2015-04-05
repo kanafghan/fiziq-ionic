@@ -17,7 +17,7 @@
                 <strong>{{ workout.name }}</strong>
                 <ion-list>
                     <ion-item ng-repeat="set in workout.getWorkoutSets()">
-                        <strong>Set #{{ $index }}:</strong> {{set.weight}} kg, {{set.reps}} reps
+                        <strong>Set #{{ $index + 1 }}:</strong> {{set.weight}} kg, {{set.reps}} reps
                     </ion-item>
                 </ion-list>
             </ion-item>

@@ -191,6 +191,7 @@ angular.module('fiziq.services', [])
     $localstorage
 ) {
     var workoutSession = null;
+    var timer = null;
 
     this.setWorkoutSession = function (ws) {
         workoutSession = ws;
@@ -198,6 +199,14 @@ angular.module('fiziq.services', [])
 
     this.getWorkoutSession = function () {
         return workoutSession;
+    };
+
+    this.setTimer = function (sessionTimer) {
+        timer = sessionTimer;
+    };
+
+    this.getTimer = function () {
+        return timer;
     };
 
     this.save = function () {
@@ -257,5 +266,33 @@ angular.module('fiziq.services', [])
         $localstorage.set('fiziq.user.registered', 'true');
     };
 })
+
+.factory('Timer', function(
+    $interval
+) {
+    return function() {
+        var timer = new Date(0, 0, 0, 0, 0, 0, 0),
+            stop  = null
+        ;
+
+        this.start = function() {
+            if (stop) {
+                return;
+            }
+
+            stope = $interval(function() {
+                timer.setSeconds(timer.getSeconds() + 1);
+            }, 1000);
+        };
+
+        this.stop = function() {
+            $interval.cancel(stop);
+        };
+
+        this.get = function() {
+            return timer;
+        };
+    };
+});
 
 ;
