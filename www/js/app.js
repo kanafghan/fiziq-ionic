@@ -1,6 +1,11 @@
 // Fiziq - Ionic App
 
-angular.module('fiziq', ['ionic', 'ionic.utils', 'fiziq.controllers', 'fiziq.services'])
+angular.module('fiziq', [
+    'ionic', 
+    'ionic.utils', 
+    'fiziq.controllers', 
+    'fiziq.services'
+])
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -37,7 +42,7 @@ angular.module('fiziq', ['ionic', 'ionic.utils', 'fiziq.controllers', 'fiziq.ser
     })
 
     .state('app.selection', {
-        url: "/selection",
+        url: "/selection/:sessionId",
         views: {
             'menuContent': {
                 templateUrl: "templates/selection.html",
@@ -47,7 +52,7 @@ angular.module('fiziq', ['ionic', 'ionic.utils', 'fiziq.controllers', 'fiziq.ser
     })
 
     .state('app.workout', {
-        url: "/workout",
+        url: "/workout/:sessionId/:workoutId",
         views: {
             'menuContent': {
                 templateUrl: "templates/workout.html",
@@ -57,7 +62,7 @@ angular.module('fiziq', ['ionic', 'ionic.utils', 'fiziq.controllers', 'fiziq.ser
     })
 
     .state('app.done', {
-        url: "/done",
+        url: "/done/:sessionId",
         views: {
             'menuContent': {
                 templateUrl: "templates/done.html",
@@ -67,5 +72,7 @@ angular.module('fiziq', ['ionic', 'ionic.utils', 'fiziq.controllers', 'fiziq.ser
     })
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/selection');
-});
+    $urlRouterProvider.otherwise('/app/selection/0');
+})
+
+;

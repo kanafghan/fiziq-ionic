@@ -25,43 +25,159 @@ angular.module('fiziq.controllers', [])
     };
 })
 
-.controller('WorkoutCtrl', function($scope, $interval, $state, displayDone) {
-    $scope.sets = [];
+.controller('WorkoutCtrl', function(
+    $scope, 
+    $interval, 
+    $state, 
+    $ionicPopup,
+    $stateParams,
+    WorkoutSet,
+    activeWorkout
+) {
+    var init = function () {
+        var workout = activeWorkout.getWorkout();
+        $scope.workoutName = workout ? workout.name : 'N/A';
+        $scope.sets = workout ? workout.getWorkoutSets() : [];
+
+        $scope.clock = new Date(0, 0, 0, 0, 0, 0, 0);
+        $interval(function () {
+            $scope.clock.setSeconds($scope.clock.getSeconds() + 1)
+        }, 1000);
+    };
+    init();
+
+    var processWorkout = function () {
+        console.log(activeWorkout.getWorkout());
+        activeWorkout.getWorkout().duration = $scope.clock.getSeconds() + (60 * $scope.clock.getMinutes());
+        console.log(activeWorkout.getWorkout());
+    };
+
+    $scope.addSet = function (set) {
+        console.log(set);
+        if (!set) {
+            $ionicPopup.alert({
+                title: 'Add Set',
+                template: 'Please fill in the Reps and Weight first.'
+            });
+
+            return;
+        }
+
+        console.log(activeWorkout.getWorkout())
+        if (!activeWorkout.getWorkout()) {
+            return;
+        }
+        activeWorkout.getWorkout().addWorkoutSet(new WorkoutSet(set.weight, set.reps));
+        $scope.sets = activeWorkout.getWorkout().getWorkoutSets();
+    };
+
+    $scope.removeSet = function (index) {
+        console.log(index);
+        if (index >= $scope.length) {
+            return;
+        }
+
+        console.log(activeWorkout.getWorkout().getWorkoutSets());
+        activeWorkout.getWorkout().removeWorkoutSet(index);
+        $scope.sets = activeWorkout.getWorkout().getWorkoutSets();
+        console.log(activeWorkout.getWorkout().getWorkoutSets());
+    };
+
+    $scope.newWorkout = function () {
+        if (0 === $scope.sets.length) {
+            return $state.go('app.selection', {sessionId: $stateParams.sessionId});
+        }
+
+        processWorkout();
+        $state.go('app.selection', {sessionId: $stateParams.sessionId});
+    };
+
+    $scope.done = function () {
+        var confirm = $ionicPopup.confirm({
+            title: 'Finish Workout',
+            template: '<p>This will terminate the log for this workout session. Are you done for today?</p>'
+        });
+
+        confirm.then(function (res) {
+            if (!res) {
+                return;
+            }
+
+            processWorkout();
+
+            console.log('Well done!');
+
+            $state.go('app.done', {sessionId: $stateParams.sessionId});
+        });
+    };
+
+    var workout = activeWorkout.getWorkout();
+    $scope.workoutName = workout ? workout.name : 'N/A';
+    $scope.sets = workout ? workout.getWorkoutSets() : [];
 
     $scope.clock = new Date(0, 0, 0, 0, 0, 0, 0);
     $interval(function () {
         $scope.clock.setSeconds($scope.clock.getSeconds() + 1)
     }, 1000);
-
-    $scope.addSet = function (clock, set) {
-        var set = {clock:clock.valueOf(), reps:set.reps, weight:set.weight};
-        console.log(set);
-        $scope.sets.push(set);
-        $scope.sets.reverse();
-    };
-
-    $scope.done = function () {
-        displayDone.setSets($scope.sets);
-        $state.go('app.done');
-    }
 })
 
-.controller('DoneCtrl', function($scope, displayDone) {
-    $scope.sets = displayDone.getSets();
+.controller('DoneCtrl', function(
+    $scope,
+    $state,
+    $stateParams,
+    $ionicHistory,
+    WorkoutSession,
+    activeWorkoutSession
+) {
+    $scope.workouts = activeWorkoutSession.getWorkoutSession().getWorkouts();
 
-    console.log($scope.sets);
-    console.log(displayDone.getSets());
+    console.log($scope.workouts);
+
+    $scope.finish = function () {
+        $ionicHistory.clearHistory();
+        $ionicHistory.nextViewOptions({
+            disableAnimate: false,
+            disableBack: true
+        });
+
+        activeWorkoutSession.getWorkoutSession().endSession();
+        activeWorkoutSession.save();
+
+        var session = new WorkoutSession();
+        activeWorkoutSession.setWorkoutSession(session);
+        $state.go('app.selection', {sessionId: session.id});
+    };
 })
 
-.controller('SelectionCtrl', function($log, $scope, muscleGroups, workouts, activeWorkoutSession, WorkoutSession, Workout, activeWorkout) {
-
-    if (!activeWorkoutSession.getWorkoutSession()) {
-        activeWorkoutSession.setWorkoutSession(new WorkoutSession());
+.controller('SelectionCtrl', function(
+    $scope,
+    $state,
+    $stateParams,
+    muscleGroups, 
+    workouts,
+    activeWorkoutSession, 
+    WorkoutSession, 
+    Workout, 
+    activeWorkout
+) {
+    var init = function () {
+        $scope.muscleGroups = muscleGroups;
+        $scope.workouts = [];
+        $scope.selectedMuscleGroup = null;
+        $scope.selectedWorkout = null;
     };
 
-    $scope.muscleGroups = muscleGroups;
-    $scope.selectedMuscleGroup = muscleGroups[0];
-    $scope.selectedWorkout = workouts[muscleGroups[0].label][0];
+    var processSelection = function () {
+        console.log('Selected Muscle Group: ' + $scope.selectedMuscleGroup.label);
+        console.log('Selected Workout: ' + $scope.selectedWorkout.label);
+
+        var newWorkout = new Workout($scope.selectedWorkout.label);
+        activeWorkoutSession.getWorkoutSession().addWorkout(newWorkout);
+        activeWorkout.setWorkout(newWorkout);
+
+        console.log(activeWorkout.getWorkout());
+        console.log(activeWorkoutSession.getWorkoutSession());
+    };
 
     var getWorkoutsBasedOnMuscleGroupSelection = function () {
         for (var key in workouts) {
@@ -72,25 +188,27 @@ angular.module('fiziq.controllers', [])
 
         return [];
     };
-    $scope.workouts = getWorkoutsBasedOnMuscleGroupSelection();
 
     $scope.updateWorkouts = function () {
         $scope.workouts = getWorkoutsBasedOnMuscleGroupSelection();
-
-        console.log('MG selected: ' +  + $scope.selectedMuscleGroup.label);
     };
 
     $scope.doSelect = function () {
-        console.log('Selected Muscle Group: ' + $scope.selectedMuscleGroup.label);
-        console.log('Selected Workout: ' + $scope.selectedWorkout.label);
-
-        var session = activeWorkoutSession.getWorkoutSession();
-        var newWorkout = new Workout($scope.selectedWorkout.label);
-        session.addWorkout(newWorkout);
-        activeWorkout.setWorkout(newWorkout);
-
-        console.log(activeWorkoutSession.getWorkoutSession());
+        processSelection();
     };
+
+    $scope.start = function () {
+        $state.go('app.workout', {
+            sessionId: $stateParams.sessionId,
+            workoutId: activeWorkout.getWorkout().id
+        });
+    };
+
+    if (!activeWorkoutSession.getWorkoutSession()) {
+        activeWorkoutSession.setWorkoutSession(new WorkoutSession());
+    }
+
+    init();
 })
 
 ;
