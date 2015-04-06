@@ -138,6 +138,10 @@ angular.module('fiziq.services', [])
             this.startedAt = json.startedAt;
             this.endedAt   = json.endedAt;
 
+            if (!json.workouts) {
+                return;
+            }
+
             for (var i = 0; i < json.workouts.length; i++) {
                 var workout = new Workout();
                 workout.fromJson(json.workouts[i]);
@@ -338,7 +342,12 @@ angular.module('fiziq.services', [])
         }
 
         sessions = sessions.split(',');
-        count = (count >= sessions.length) ? sessions.length : count;
+        
+        if (!count) {
+            count = sessions.length;
+        } else {
+            count = (count >= sessions.length) ? sessions.length : count;
+        }
 
         for (var i = 0; i < count; i++) {        
             var loggedSession = $localstorage.getObject(
@@ -352,6 +361,21 @@ angular.module('fiziq.services', [])
         }
 
         return result;
+    };
+
+    this.findWorkout = function (workoutName) {
+        var sessions = this.getLatest();
+
+        for (var i = 0; i < sessions.length; i++) {
+            var workouts = sessions[i].getWorkouts();
+            for (var j = 0; j < workouts.length; j++) {
+                if (workouts[j].name === workoutName) {
+                    return workouts[j];
+                }
+            }
+        }
+
+        return null;
     };
 })
 
