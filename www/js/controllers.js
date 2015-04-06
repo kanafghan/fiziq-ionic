@@ -30,7 +30,8 @@ angular.module('fiziq.controllers', [])
     WorkoutSet,
     activeWorkout,
     activeWorkoutSession,
-    Timer
+    Timer,
+    loggedWorkoutSessions
 ) {
     var init = function () {
         var workout = activeWorkout.getWorkout();
@@ -41,6 +42,9 @@ angular.module('fiziq.controllers', [])
         $scope.timer.start();
 
         $scope.sessionTimer = activeWorkoutSession.getTimer();
+
+        var loggedWorkout = loggedWorkoutSessions.findWorkout($scope.workoutName);
+        $scope.loggedSets = loggedWorkout ? loggedWorkout.getWorkoutSets() : [];
     };
     init();
 
@@ -195,6 +199,13 @@ angular.module('fiziq.controllers', [])
     }
 
     init();
+})
+
+.controller('HistoryCtrl', function(
+    $scope,
+    loggedWorkoutSessions
+) {
+    $scope.loggedSessions = loggedWorkoutSessions.getLatest();
 })
 
 ;

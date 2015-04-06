@@ -71,6 +71,16 @@ angular.module('fiziq', [
         }
     })
 
+    .state('app.history', {
+        url: "/history",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/history.html",
+                controller: 'HistoryCtrl'
+            }
+        }
+    })
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/selection/0');
 })
