@@ -99,8 +99,14 @@ angular.module('fiziq.services', [])
     ]
 })
 
-.factory('WorkoutSession', function() {
+.factory('WorkoutSession', function(
+    Workout
+) {
     return function() {
+        this.id = new Date().getTime();
+        this.startedAt = new Date();
+        this.endedAt = null;
+
         var workouts = [];
 
         this.addWorkout = function (workout) {
@@ -110,20 +116,88 @@ angular.module('fiziq.services', [])
         this.getWorkouts = function () {
             return workouts;
         };
+
+        this.endSession = function () {
+            this.endedAt = new Date();
+        };
+
+        this.toJson = function () {
+            var workoutsAsJson = [];
+            for (var i = 0; i < workouts.length; i++) {
+                workoutsAsJson[i] = workouts[i].toJson();
+            }
+
+            return {
+                startedAt: this.startedAt,
+                endedAt: this.endedAt,
+                workouts: workoutsAsJson
+            };
+        };
+
+        this.fromJson = function (json) {
+            this.startedAt = json.startedAt;
+            this.endedAt   = json.endedAt;
+
+            for (var i = 0; i < json.workouts.length; i++) {
+                var workout = new Workout();
+                workout.fromJson(json.workouts[i]);
+                this.addWorkout(workout);
+            }
+        };
     };
 })
 
-.factory('Workout', function() {
+.factory('Workout', function(
+    WorkoutSet
+) {
     return function(name) {
+        this.id = new Date().getTime();
         this.name = name;
+        this.duration = 0; // number of seconds
+        
         var workoutSets = [];
 
         this.addWorkoutSet = function (set) {
             workoutSets[workoutSets.length] = set;
         };
 
+        this.removeWorkoutSet = function (index) {
+            if (index >= workoutSets.length) {
+                return;
+            }
+
+            workoutSets.splice(index, 1);
+        };
+
         this.getWorkoutSets = function () {
             return workoutSets;
+        };
+
+        this.toJson = function () {
+            var sets = [];
+            for (var i = 0; i < workoutSets.length; i++) {
+                sets[i] = workoutSets[i].toJson();
+            }
+
+            return {
+                name: this.name,
+                duration: this.duration,
+                workoutSets: sets
+            };
+        };
+
+        this.fromJson = function (json) {
+            this.name = json.name;
+            this.duration = json.duration;
+
+            for (var i = 0; i < json.workoutSets.length; i++) {
+                var set = new WorkoutSet(
+                    json.workoutSets[i].weight, 
+                    json.workoutSets[i].reps
+                );
+
+                this.addWorkoutSet(set);
+            }
         };
     };
 })
@@ -132,20 +206,21 @@ angular.module('fiziq.services', [])
     return function(weight, reps) {
         this.weight = weight;
         this.reps = reps;
-        var workoutSets = [];
 
-        this.addWorkoutSet = function (set) {
-            workoutSets[workoutSets.length] = set;
-        };
-
-        this.getWorkoutSets = function () {
-            return workoutSets;
+        this.toJson = function () {
+            return {
+                weight: this.weight,
+                reps: this.reps
+            };
         };
     };
 })
 
-.service('activeWorkoutSession', function() {
+.service('activeWorkoutSession', function(
+    $localstorage
+) {
     var workoutSession = null;
+    var timer = null;
 
     this.setWorkoutSession = function (ws) {
         workoutSession = ws;
@@ -153,6 +228,30 @@ angular.module('fiziq.services', [])
 
     this.getWorkoutSession = function () {
         return workoutSession;
+    };
+
+    this.setTimer = function (sessionTimer) {
+        timer = sessionTimer;
+    };
+
+    this.getTimer = function () {
+        return timer;
+    };
+
+    this.save = function () {
+        if (!workoutSession) {
+            return;
+        }
+
+        var sessions = $localstorage.get('fiziq.workout_sessions', null);
+        sessions = !sessions ? workoutSession.id : workoutSession.id + ',' + sessions;
+
+        $localstorage.set('fiziq.workout_sessions', sessions);
+
+        $localstorage.setObject(
+            'fiziq.workout_sessions.' + workoutSession.id, 
+            workoutSession.toJson()
+        );
     };
 })
 
@@ -168,19 +267,9 @@ angular.module('fiziq.services', [])
     };
 })
 
-.service('displayDone', function() {
-    this.sets = null;
-
-    this.setSets = function (s) {
-        this.sets = s;
-    };
-
-    this.getSets = function () {
-        return this.sets;
-    };
-})
-
-.service('user', function($localstorage) {
+.service('user', function(
+    $localstorage
+) {
     this.key = null;
     this.name = null;
     this.email = null;
@@ -204,6 +293,65 @@ angular.module('fiziq.services', [])
             email : this.email
         });
         $localstorage.set('fiziq.user.registered', 'true');
+    };
+})
+
+.factory('Timer', function(
+    $interval
+) {
+    return function() {
+        var timer = new Date(0, 0, 0, 0, 0, 0, 0),
+            stop  = null
+        ;
+
+        this.start = function() {
+            if (stop) {
+                return;
+            }
+
+            stope = $interval(function() {
+                timer.setSeconds(timer.getSeconds() + 1);
+            }, 1000);
+        };
+
+        this.stop = function() {
+            $interval.cancel(stop);
+        };
+
+        this.get = function() {
+            return timer;
+        };
+    };
+})
+
+.service('loggedWorkoutSessions', function(
+    $localstorage,
+    WorkoutSession
+) {
+
+    this.getLatest = function (count) {
+        var result = [];
+
+        var sessions = $localstorage.get('fiziq.workout_sessions', null);
+        if (!sessions) {
+            return result;
+        }
+
+        sessions = sessions.split(',');
+        count = (count >= sessions.length) ? sessions.length : count;
+
+        for (var i = 0; i < count; i++) {        
+            var loggedSession = $localstorage.getObject(
+                'fiziq.workout_sessions.' + sessions[i]
+            );
+
+            var session = new WorkoutSession();
+            session.fromJson(loggedSession);
+
+            result[result.length] = session;
+        }
+
+        return result;
     };
 })
 

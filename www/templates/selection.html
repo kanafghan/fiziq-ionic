@@ -1,9 +1,9 @@
-<ion-view view-title="Selection">
+<ion-view view-title="Select Workout">
     <ion-content>
-        <div class="list">
+        <div>
             <label class="item item-input item-select">
                 <div class="input-label">
-                    Muscle Group:
+                    <strong>Muscle:</strong>
                 </div>
                 <select ng-options="item.label for item in muscleGroups track by item.label"
                         ng-model="$parent.selectedMuscleGroup"
@@ -12,16 +12,30 @@
             </label>
             <label class="item item-input item-select">
                 <div class="input-label">
-                    Excercise:
+                    <strong>Workout:</strong>
                 </div>
                 <select ng-options="item.label for item in workouts"
                         ng-model="$parent.selectedWorkout"
                         ng-change="doSelect()">
                 </select>
             </label>
-            <a class="button button-block button-positive" href="#/app/workout">
-                Start Workout
-            </a>
+            <button class="button button-block button-positive" ng-click="start()">
+                Start!
+            </button>
+        </div>
+
+        <div>        
+            <h3>Latest logged sessions:</h3>
+            <ion-list>
+                <ion-item ng-repeat="session in loggedSessions">
+                    <strong>{{ session.startedAt|date:'fullDate' }}</strong>
+                    <ul>
+                        <li ng-repeat="workout in session.getWorkouts()">
+                            {{ workout.name }}
+                        </li>
+                    </ul>
+                </ion-item>
+            </ion-list>
         </div>
     </ion-content>
 </ion-view>
