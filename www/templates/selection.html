@@ -25,12 +25,12 @@
         </div>
 
         <div>        
-            <h3>Latest logged sessions:</h3>
+            <h3 class="padding-left">Latest logged sessions:</h3>
             <ion-list>
-                <ion-item ng-repeat="session in loggedSessions">
+                <ion-item class="item-divider" ng-repeat="session in loggedSessions">
                     <strong>{{ session.startedAt|date:'fullDate' }}</strong>
-                    <ul>
-                        <li ng-repeat="workout in session.getWorkouts()">
+                    <ul class="list">
+                        <li class="item" ng-repeat="workout in session.getWorkouts()">
                             {{ workout.name }}
                         </li>
                     </ul>
