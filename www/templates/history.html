@@ -1,0 +1,24 @@
+<ion-view view-title="History">
+    <ion-content>
+        <ion-scroll zooming="false" direction="xy" style="width: 350px; height: 650px">
+            <div style="width: 1200px; height: 30000px">
+            <ion-list>
+                <ion-item ng-repeat="session in loggedSessions">
+                    <strong>{{ session.startedAt|date:'fullDate' }}</strong>
+                    <table>
+                        <tr ng-repeat="workout in session.getWorkouts()">
+                            <td style="border: 1px solid #000; padding: 5px 5px">
+                                {{ workout.name }}
+                            </td>
+                            <td style="border: 1px solid #000; padding: 5px 5px" 
+                                ng-repeat="set in workout.getWorkoutSets()">
+                                {{ set.reps }}x{{ set.weight }}
+                            </td>
+                        </tr>
+                    </table>
+                </ion-item>
+            </ion-list>
+            </div>
+        </ion-scroll>
+    </ion-content>
+</ion-view>

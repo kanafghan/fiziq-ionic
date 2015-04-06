@@ -201,4 +201,11 @@ angular.module('fiziq.controllers', [])
     init();
 })
 
+.controller('HistoryCtrl', function(
+    $scope,
+    loggedWorkoutSessions
+) {
+    $scope.loggedSessions = loggedWorkoutSessions.getLatest();
+})
+
 ;
