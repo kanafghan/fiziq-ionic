@@ -99,7 +99,9 @@ angular.module('fiziq.services', [])
     ]
 })
 
-.factory('WorkoutSession', function() {
+.factory('WorkoutSession', function(
+    Workout
+) {
     return function() {
         this.id = new Date().getTime();
         this.startedAt = new Date();
@@ -131,10 +133,23 @@ angular.module('fiziq.services', [])
                 workouts: workoutsAsJson
             };
         };
+
+        this.fromJson = function (json) {
+            this.startedAt = json.startedAt;
+            this.endedAt   = json.endedAt;
+
+            for (var i = 0; i < json.workouts.length; i++) {
+                var workout = new Workout();
+                workout.fromJson(json.workouts[i]);
+                this.addWorkout(workout);
+            }
+        };
     };
 })
 
-.factory('Workout', function() {
+.factory('Workout', function(
+    WorkoutSet
+) {
     return function(name) {
         this.id = new Date().getTime();
         this.name = name;
@@ -169,6 +184,20 @@ angular.module('fiziq.services', [])
                 duration: this.duration,
                 workoutSets: sets
             };
+        };
+
+        this.fromJson = function (json) {
+            this.name = json.name;
+            this.duration = json.duration;
+
+            for (var i = 0; i < json.workoutSets.length; i++) {
+                var set = new WorkoutSet(
+                    json.workoutSets[i].weight, 
+                    json.workoutSets[i].reps
+                );
+
+                this.addWorkoutSet(set);
+            }
         };
     };
 })
@@ -293,6 +322,37 @@ angular.module('fiziq.services', [])
             return timer;
         };
     };
-});
+})
+
+.service('loggedWorkoutSessions', function(
+    $localstorage,
+    WorkoutSession
+) {
+
+    this.getLatest = function (count) {
+        var result = [];
+
+        var sessions = $localstorage.get('fiziq.workout_sessions', null);
+        if (!sessions) {
+            return result;
+        }
+
+        sessions = sessions.split(',');
+        count = (count >= sessions.length) ? sessions.length : count;
+
+        for (var i = 0; i < count; i++) {        
+            var loggedSession = $localstorage.getObject(
+                'fiziq.workout_sessions.' + sessions[i]
+            );
+
+            var session = new WorkoutSession();
+            session.fromJson(loggedSession);
+
+            result[result.length] = session;
+        }
+
+        return result;
+    };
+})
 
 ;

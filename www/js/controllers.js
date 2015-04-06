@@ -141,13 +141,15 @@ angular.module('fiziq.controllers', [])
     WorkoutSession, 
     Workout,
     Timer,
-    activeWorkout
+    activeWorkout,
+    loggedWorkoutSessions
 ) {
     var init = function () {
         $scope.muscleGroups = muscleGroups;
         $scope.workouts = [];
         $scope.selectedMuscleGroup = null;
         $scope.selectedWorkout = null;
+        $scope.loggedSessions = loggedWorkoutSessions.getLatest(2);
     };
 
     var processSelection = function () {

@@ -1,6 +1,6 @@
 <ion-view view-title="Select Workout">
     <ion-content>
-        <div class="list">
+        <div>
             <label class="item item-input item-select">
                 <div class="input-label">
                     <strong>Muscle:</strong>
@@ -22,6 +22,20 @@
             <button class="button button-block button-positive" ng-click="start()">
                 Start!
             </button>
+        </div>
+
+        <div>        
+            <h3>Latest logged sessions:</h3>
+            <ion-list>
+                <ion-item ng-repeat="session in loggedSessions">
+                    <strong>{{ session.startedAt|date:'fullDate' }}</strong>
+                    <ul>
+                        <li ng-repeat="workout in session.getWorkouts()">
+                            {{ workout.name }}
+                        </li>
+                    </ul>
+                </ion-item>
+            </ion-list>
         </div>
     </ion-content>
 </ion-view>
