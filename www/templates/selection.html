@@ -24,6 +24,12 @@
             </button>
         </div>
 
+        <div class="row">
+            <div class="col"  style="text-align: center" ng-repeat="image in $parent.selectedWorkout.images track by $index">
+                <img ng-src="{{ image }}" style="width: 130px">
+            </div>
+        </div>
+
         <div>        
             <h3 class="padding-left">Latest logged sessions:</h3>
             <ion-list>
