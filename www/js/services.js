@@ -296,7 +296,7 @@ angular.module('fiziq.services', [])
             label : 'Decline Crunches'
         },
         {
-            images: ['img/workout-icon.jpg'],
+            images: ['img/incline-situps.png'],
             label : 'Incline Sit Ups'
         },
         {
@@ -320,7 +320,7 @@ angular.module('fiziq.services', [])
             label : 'Knee Raises'
         },
         {
-            images: ['img/workout-icon.jpg'],
+            images: ['img/lying-leg-raises-s1.png', 'img/lying-leg-raises-s2.png'],
             label : 'Lying Leg Raise'
         },
         {
@@ -338,6 +338,14 @@ angular.module('fiziq.services', [])
         {
             images: ['img/workout-icon.jpg'],
             label : 'Vacuum'
+        },
+        {
+            images: ['img/side-bends-at-hyperextension.png'],
+            label : 'Side Bends at Hyperextension'
+        },
+        {
+            images: ['img/cable-kneeling-crunch.png'],
+            label : 'Cable Kneeling Crunches'
         }
     ]
 })
