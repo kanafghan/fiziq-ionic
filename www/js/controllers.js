@@ -49,6 +49,12 @@ angular.module('fiziq.controllers', [])
     init();
 
     var processWorkout = function () {
+        if (0 === $scope.sets.length) {
+            activeWorkoutSession.getWorkoutSession().remveWorkout(activeWorkout.getWorkout());
+
+            return;
+        }
+
         $scope.timer.stop();
         var duration = $scope.timer.get().getSeconds() + (60 * $scope.timer.get().getMinutes());
         activeWorkout.getWorkout().duration = duration;
@@ -81,10 +87,6 @@ angular.module('fiziq.controllers', [])
     };
 
     $scope.newWorkout = function () {
-        if (0 === $scope.sets.length) {
-            return $state.go('app.selection', {sessionId: $stateParams.sessionId});
-        }
-
         processWorkout();
         $state.go('app.selection', {sessionId: $stateParams.sessionId});
     };

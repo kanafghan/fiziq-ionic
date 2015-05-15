@@ -365,6 +365,16 @@ angular.module('fiziq.services', [])
             workouts[workouts.length] = workout;
         };
 
+        this.remveWorkout = function (workout) {
+            for (var i = 0, l = workouts.length; i < l; i++) {
+                if (workouts[i].id === workout.id) {
+                    workouts.splice(i, 1);
+
+                    return;
+                }
+            }
+        };
+
         this.getWorkouts = function () {
             return workouts;
         };
@@ -401,6 +411,10 @@ angular.module('fiziq.services', [])
                 workout.fromJson(json.workouts[i]);
                 this.addWorkout(workout);
             }
+        };
+
+        this.isValid = function () {
+            return 0 != workouts.length
         };
     };
 })
@@ -499,7 +513,7 @@ angular.module('fiziq.services', [])
     };
 
     this.save = function () {
-        if (!workoutSession) {
+        if (!workoutSession || !workoutSession.isValid()) {
             return;
         }
 
