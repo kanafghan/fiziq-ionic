@@ -104,6 +104,35 @@ angular.module('fiziq.services', [])
         {
             images: ['img/workout-icon.jpg'],
             label : 'Single Side Cable Lateral Raise'
+        },        
+        {
+            images: ['img/workout-icon.jpg'],
+            label : 'Standing Shrugs with Dumbbells'
+        },
+        {
+            images: ['img/workout-icon.jpg'],
+            label : 'Standing Shrugs with Barbell'
+        },
+        {
+            images: ['img/face-pull-1.jpg', 'img/face-pull-2.jpg'],
+            label : 'Face Pull'
+        },
+        {
+            images: [
+                'img/side-laterals-to-front-raises-1.jpg', 
+                'img/side-laterals-to-front-raises-2.jpg', 
+                'img/side-laterals-to-front-raises-3.jpg', 
+                'img/side-laterals-to-front-raises-4.jpg'
+            ],
+            label: 'Side Laterals to Front Raises'
+        },
+        {
+            images: ['img/workout-icon.jpg'],
+            label : 'Smith Machine Shrugs'
+        },
+        {
+            images: ['img/seated-shoulder-press-machine.jpg'],
+            label : 'Seated Machine Shoulder Presses'
         }
     ],
     'Back' : [
@@ -134,14 +163,6 @@ angular.module('fiziq.services', [])
         {
             images: ['img/workout-icon.jpg'],
             label : 'Straight-Arm Pulldowns'
-        },
-        {
-            images: ['img/workout-icon.jpg'],
-            label : 'Smith Machine Shrugs'
-        },
-        {
-            images: ['img/workout-icon.jpg'],
-            label : 'Standing Shrugs with Dumbbells'
         },
         {
             images: ['img/workout-icon.jpg'],
@@ -346,6 +367,14 @@ angular.module('fiziq.services', [])
         {
             images: ['img/cable-kneeling-crunch.png'],
             label : 'Cable Kneeling Crunches'
+        },
+        {
+            images: ['img/abdominal-air-bike-1.png', 'img/abdominal-air-bike-2.png'],
+            label : 'Abdominal Air Bike'
+        },
+        {
+            images: ['img/plank-with-arm-raise-1.png', 'img/plank-with-arm-raise-2.png', 'img/plank-with-arm-raise-3.png'],
+            label : 'Plank with Arm Raise'
         }
     ]
 })
@@ -414,7 +443,7 @@ angular.module('fiziq.services', [])
         };
 
         this.isValid = function () {
-            return 0 != workouts.length
+            return 0 != workouts.length;
         };
     };
 })
