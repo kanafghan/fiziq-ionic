@@ -375,6 +375,10 @@ angular.module('fiziq.services', [])
         {
             images: ['img/plank-with-arm-raise-1.png', 'img/plank-with-arm-raise-2.png', 'img/plank-with-arm-raise-3.png'],
             label : 'Plank with Arm Raise'
+        },
+        {
+            images: ['img/side-plank-1.png'],
+            label : 'Side Plank'
         }
     ]
 })
