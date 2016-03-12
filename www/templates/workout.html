@@ -1,21 +1,21 @@
 <ion-view view-title="{{ workoutName }}" hide-back-button="true">
     <ion-content>
         <h1 class="title padding-top" style="text-align:center;">
-            {{ timer.get()|date:'mm:ss' }} 
+            {{ timer.get()|date:'mm:ss' }}
             <small>{{ sessionTimer.get()|date:'H:mm' }}</small>
         </h1>
         <div class="list">
-            <label class="item item-input item-select">
+            <label class="item item-input">
                 <span class="input-label">Weight:</span>
-                <select ng-model="set.weight" ng-options="n for n in [] | range:0:500"></select>
+                <input type="number" ng-model="set.weight"></input>
             </label>
-            <label class="item item-input item-select">
+            <label class="item item-input">
                 <span class="input-label">Reps:</span>
-                <select ng-model="set.reps" ng-options="n for n in [] | range:1:200"></select>
+                <input type="number" ng-model="set.reps"></input>
             </label>
         </div>
-        
-        <button class="button button-block button-positive" ng-click="addSet(set)">
+
+        <button class="button button-block button-positive" ng-click="addSet()">
             Add Set
         </button>
         <button class="button button-block button-positive" ng-click="newWorkout()">
@@ -25,27 +25,24 @@
             Finish Training
         </button>
 
-        <div>
-            <ul class="list">
-                <li class="item item-divider padding-left">
-                    Previously Logged:
-                </li>
-                <li class="item" ng-repeat="set in loggedSets">
-                    Set #{{ $index + 1 }}: {{ set.weight }} kg, {{ set.reps }} reps
-                </li>
-            </ul>
-        </div>
+        <ion-list>
+            <ion-item class="item-divider padding-left">
+                <strong>Currently Logged:</strong>
+            </ion-item>
+            <ion-item ng-repeat="set in sets" class="item-icon-right">
+                Set #{{ $index + 1 }}: <strong>{{ set.weight }} kg, {{ set.reps }} reps</strong>
+                <i class="icon ion-close-circled" ng-click="removeSet($index)"></i>
+            </ion-item>
+        </ion-list>
 
-        <ion-scroll zooming="false" direction="y" style="height: 250px">
-            <ion-list style="height: 250px">
-                <ion-item class="item-divider padding-left">
-                    Currently Logged:
-                </ion-item>
-                <ion-item ng-repeat="set in sets" class="item item-icon-right">
-                    <strong>Set #{{ $index + 1 }}: {{ set.weight }} kg, {{ set.reps }} reps</strong>
-                    <i class="icon ion-close-circled" ng-click="removeSet($index)"></i>
-                </ion-item>
-            </ion-list>
-        </ion-scroll>
+        <ion-list>
+            <ion-item class="item-divider padding-left">
+                <strong>Previously Logged:</strong>
+            </ion-item>
+            <ion-item class="item" ng-repeat="set in loggedSets">
+                Set #{{ $index + 1 }}: {{ set.weight }} kg, {{ set.reps }} reps
+            </ion-item>
+        </ion-list>
+
     </ion-content>
 </ion-view>

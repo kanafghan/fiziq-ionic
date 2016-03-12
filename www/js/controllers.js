@@ -23,8 +23,8 @@ angular.module('fiziq.controllers', [])
 })
 
 .controller('WorkoutCtrl', function(
-    $scope, 
-    $state, 
+    $scope,
+    $state,
     $ionicPopup,
     $stateParams,
     WorkoutSet,
@@ -60,8 +60,10 @@ angular.module('fiziq.controllers', [])
         activeWorkout.getWorkout().duration = duration;
     };
 
-    $scope.addSet = function (set) {
-        if (!set) {
+    $scope.set = {};
+    $scope.addSet = function () {
+        var set = $scope.set;
+        if (!set || !set.weight || !set.reps) {
             $ionicPopup.alert({
                 title: 'Add Set',
                 template: 'Please fill in the Reps and Weight first.'
@@ -73,8 +75,11 @@ angular.module('fiziq.controllers', [])
         if (!activeWorkout.getWorkout()) {
             return;
         }
+
         activeWorkout.getWorkout().addWorkoutSet(new WorkoutSet(set.weight, set.reps));
         $scope.sets = activeWorkout.getWorkout().getWorkoutSets();
+
+        $scope.set = {};
     };
 
     $scope.removeSet = function (index) {
@@ -141,10 +146,10 @@ angular.module('fiziq.controllers', [])
     $scope,
     $state,
     $stateParams,
-    muscleGroups, 
+    muscleGroups,
     workouts,
-    activeWorkoutSession, 
-    WorkoutSession, 
+    activeWorkoutSession,
+    WorkoutSession,
     Workout,
     Timer,
     activeWorkout,
