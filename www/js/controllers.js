@@ -1,6 +1,11 @@
 angular.module('fiziq.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, user) {
+.controller('AppCtrl', function(
+    $scope,
+    $ionicModal,
+    $timeout,
+    user
+) {
     // Form data for the registration modal
     $scope.signupData = {};
 
@@ -50,7 +55,7 @@ angular.module('fiziq.controllers', [])
 
     var processWorkout = function () {
         if (0 === $scope.sets.length) {
-            activeWorkoutSession.getWorkoutSession().remveWorkout(activeWorkout.getWorkout());
+            activeWorkoutSession.getWorkoutSession().removeWorkout(activeWorkout.getWorkout());
 
             return;
         }
@@ -63,7 +68,7 @@ angular.module('fiziq.controllers', [])
     $scope.set = {};
     $scope.addSet = function () {
         var set = $scope.set;
-        if (!set || !set.weight || !set.reps) {
+        if (!set || !angular.isNumber(set.weight) || !angular.isNumber(set.reps)) {
             $ionicPopup.alert({
                 title: 'Add Set',
                 template: 'Please fill in the Reps and Weight first.'
@@ -80,6 +85,8 @@ angular.module('fiziq.controllers', [])
         $scope.sets = activeWorkout.getWorkout().getWorkoutSets();
 
         $scope.set = {};
+
+        activeWorkout.store();
     };
 
     $scope.removeSet = function (index) {
@@ -89,10 +96,14 @@ angular.module('fiziq.controllers', [])
 
         activeWorkout.getWorkout().removeWorkoutSet(index);
         $scope.sets = activeWorkout.getWorkout().getWorkoutSets();
+
+        activeWorkout.store();
     };
 
     $scope.newWorkout = function () {
         processWorkout();
+        activeWorkout.terminate();
+        activeWorkoutSession.store();
         $state.go('app.selection', {sessionId: $stateParams.sessionId});
     };
 
@@ -112,6 +123,12 @@ angular.module('fiziq.controllers', [])
             $state.go('app.done', {sessionId: $stateParams.sessionId});
         });
     };
+
+    $scope.discardWorkout = function () {
+        activeWorkoutSession.getWorkoutSession().removeWorkout(activeWorkout.getWorkout());
+        activeWorkout.terminate();
+        $state.go('app.selection', {sessionId: $stateParams.sessionId});
+    };
 })
 
 .controller('DoneCtrl', function(
@@ -120,7 +137,8 @@ angular.module('fiziq.controllers', [])
     $stateParams,
     $ionicHistory,
     WorkoutSession,
-    activeWorkoutSession
+    activeWorkoutSession,
+    activeWorkout
 ) {
     $scope.workouts = activeWorkoutSession.getWorkoutSession().getWorkouts();
 
@@ -131,13 +149,21 @@ angular.module('fiziq.controllers', [])
             disableBack: true
         });
 
-        activeWorkoutSession.getTimer().stop();
+        var timer = activeWorkoutSession.getTimer();
+        if (timer) {
+            timer.stop();
+        }
+
         activeWorkoutSession.getWorkoutSession().endSession();
         activeWorkoutSession.save();
+        activeWorkoutSession.terminate();
 
         var session = new WorkoutSession();
         activeWorkoutSession.setWorkoutSession(session);
         activeWorkoutSession.setTimer(null);
+
+        activeWorkout.terminate();
+
         $state.go('app.selection', {sessionId: session.id});
     };
 })
@@ -146,6 +172,7 @@ angular.module('fiziq.controllers', [])
     $scope,
     $state,
     $stateParams,
+    $ionicPopup,
     muscleGroups,
     workouts,
     activeWorkoutSession,
@@ -165,8 +192,14 @@ angular.module('fiziq.controllers', [])
 
     var processSelection = function () {
         var newWorkout = new Workout($scope.selectedWorkout.label);
-        activeWorkoutSession.getWorkoutSession().addWorkout(newWorkout);
+        if (!activeWorkoutSession.getWorkoutSession().hasWorkout(newWorkout)) {
+            activeWorkoutSession.getWorkoutSession().addWorkout(newWorkout);
+        } else {
+            newWorkout = activeWorkoutSession.getWorkoutSession().findWorkoutByName(newWorkout.name);
+        }
+
         activeWorkout.setWorkout(newWorkout);
+        activeWorkout.store();
     };
 
     var getWorkoutsBasedOnMuscleGroupSelection = function () {
@@ -188,6 +221,13 @@ angular.module('fiziq.controllers', [])
     };
 
     $scope.start = function () {
+        if (!activeWorkout.getWorkout()) {
+            return $ionicPopup.alert({
+                title: 'Select Workout',
+                template: 'Please select a workout first!'
+            });
+        }
+
         var timer = activeWorkoutSession.getTimer();
         if (!timer) {
             timer = new Timer();
@@ -195,17 +235,33 @@ angular.module('fiziq.controllers', [])
             activeWorkoutSession.setTimer(timer);
         }
 
+        activeWorkoutSession.store();
+
         $state.go('app.workout', {
             sessionId: $stateParams.sessionId,
             workoutId: activeWorkout.getWorkout().id
         });
     };
 
-    if (!activeWorkoutSession.getWorkoutSession()) {
-        activeWorkoutSession.setWorkoutSession(new WorkoutSession());
-    }
-
     init();
+
+    $scope.$on('$ionicView.beforeEnter', function() {
+        var session = activeWorkoutSession.load(),
+            workout = activeWorkout.load()
+        ;
+
+        if (session && workout) {
+            session.replaceWorkout(workout);
+            $state.go('app.workout', {
+                sessionId: session.id,
+                workoutId: workout.id
+            });
+        } else if (session) {
+            activeWorkoutSession.setWorkoutSession(session);
+        } else if (!activeWorkoutSession.getWorkoutSession()) {
+            activeWorkoutSession.setWorkoutSession(new WorkoutSession());
+        }
+    });
 })
 
 .controller('HistoryCtrl', function(
