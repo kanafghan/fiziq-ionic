@@ -104,7 +104,7 @@ angular.module('fiziq.services', [])
         {
             images: ['img/workout-icon.jpg'],
             label : 'Single Side Cable Lateral Raise'
-        },        
+        },
         {
             images: ['img/workout-icon.jpg'],
             label : 'Standing Shrugs with Dumbbells'
@@ -119,9 +119,9 @@ angular.module('fiziq.services', [])
         },
         {
             images: [
-                'img/side-laterals-to-front-raises-1.jpg', 
-                'img/side-laterals-to-front-raises-2.jpg', 
-                'img/side-laterals-to-front-raises-3.jpg', 
+                'img/side-laterals-to-front-raises-1.jpg',
+                'img/side-laterals-to-front-raises-2.jpg',
+                'img/side-laterals-to-front-raises-3.jpg',
                 'img/side-laterals-to-front-raises-4.jpg'
             ],
             label: 'Side Laterals to Front Raises'
@@ -398,7 +398,7 @@ angular.module('fiziq.services', [])
             workouts[workouts.length] = workout;
         };
 
-        this.remveWorkout = function (workout) {
+        this.removeWorkout = function (workout) {
             for (var i = 0, l = workouts.length; i < l; i++) {
                 if (workouts[i].id === workout.id) {
                     workouts.splice(i, 1);
@@ -449,6 +449,36 @@ angular.module('fiziq.services', [])
         this.isValid = function () {
             return 0 != workouts.length;
         };
+
+        this.hasWorkout = function (workout) {
+            for (var i = 0, l = workouts.length; i < l; i++) {
+                if ((workouts[i].id === workout.id) || (workouts[i].name === workout.name)) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        this.replaceWorkout = function (workout) {
+            for (var i = 0, l = workouts.length; i < l; i++) {
+                if (workouts[i].id === workout.id) {
+                    workouts[i] = workout;
+
+                    return;
+                }
+            }
+        };
+
+        this.findWorkoutByName = function(workoutName) {
+            for (var i = 0, l = workouts.length; i < l; i++) {
+                if (workouts[i].name === workout.name) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
     };
 })
 
@@ -459,7 +489,7 @@ angular.module('fiziq.services', [])
         this.id = new Date().getTime();
         this.name = name;
         this.duration = 0; // number of seconds
-        
+
         var workoutSets = [];
 
         this.addWorkoutSet = function (set) {
@@ -499,7 +529,7 @@ angular.module('fiziq.services', [])
 
             for (var i = 0; i < json.workoutSets.length; i++) {
                 var set = new WorkoutSet(
-                    json.workoutSets[i].weight, 
+                    json.workoutSets[i].weight,
                     json.workoutSets[i].reps
                 );
 
@@ -524,7 +554,8 @@ angular.module('fiziq.services', [])
 })
 
 .service('activeWorkoutSession', function(
-    $localstorage
+    $localstorage,
+    WorkoutSession
 ) {
     var workoutSession = null;
     var timer = null;
@@ -556,13 +587,45 @@ angular.module('fiziq.services', [])
         $localstorage.set('fiziq.workout_sessions', sessions);
 
         $localstorage.setObject(
-            'fiziq.workout_sessions.' + workoutSession.id, 
+            'fiziq.workout_sessions.' + workoutSession.id,
             workoutSession.toJson()
         );
     };
+
+    this.store = function () {
+        if (!workoutSession || !workoutSession.isValid()) {
+            return;
+        }
+
+        $localstorage.setObject('fiziq.active_workout_session', workoutSession.toJson());
+    };
+
+    this.load = function () {
+        if (workoutSession) {
+            return workoutSession;
+        }
+
+        var session = $localstorage.getObject('fiziq.active_workout_session');
+        if (angular.equals({}, session)) {
+            return null;
+        }
+
+        workoutSession = new WorkoutSession();
+        workoutSession.fromJson(session);
+
+        return workoutSession;
+    };
+
+    this.terminate = function() {
+        workoutSession = null;
+        $localstorage.remove('fiziq.active_workout_session');
+    };
 })
 
-.service('activeWorkout', function() {
+.service('activeWorkout', function(
+    $localstorage,
+    Workout
+) {
     var workout = null;
 
     this.setWorkout = function (w) {
@@ -571,6 +634,35 @@ angular.module('fiziq.services', [])
 
     this.getWorkout = function () {
         return workout;
+    };
+
+    this.store = function () {
+        if (!workout) {
+            return;
+        }
+
+        $localstorage.setObject('fiziq.active_workout', workout.toJson());
+    };
+
+    this.load = function () {
+        if (workout) {
+            return workout;
+        }
+
+        var w = $localstorage.getObject('fiziq.active_workout');
+        if (angular.equals({}, w)) {
+            return null;
+        }
+
+        workout = new Workout();
+        workout.fromJson(w);
+
+        return workout;
+    };
+
+    this.terminate = function() {
+        workout = null;
+        $localstorage.remove('fiziq.active_workout');
     };
 })
 
@@ -645,14 +737,14 @@ angular.module('fiziq.services', [])
         }
 
         sessions = sessions.split(',');
-        
+
         if (!count) {
             count = sessions.length;
         } else {
             count = (count >= sessions.length) ? sessions.length : count;
         }
 
-        for (var i = 0; i < count; i++) {        
+        for (var i = 0; i < count; i++) {
             var loggedSession = $localstorage.getObject(
                 'fiziq.workout_sessions.' + sessions[i]
             );
