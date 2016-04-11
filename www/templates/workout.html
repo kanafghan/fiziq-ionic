@@ -1,8 +1,8 @@
 <ion-view view-title="{{ workoutName }}" hide-back-button="true">
     <ion-content>
-        <h1 class="title padding-top" style="text-align:center;">
+        <h1 class="title padding-top text-center">
             {{ timer.get()|date:'mm:ss' }}
-            <small>{{ sessionTimer.get()|date:'H:mm' }}</small>
+            <small class="dark">{{ sessionTimer.get()|date:"H'h' m'min'" }}</small>
         </h1>
         <div class="list">
             <label class="item item-input">
