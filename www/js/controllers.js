@@ -268,7 +268,7 @@ angular.module('fiziq.controllers', [])
     $scope,
     loggedWorkoutSessions
 ) {
-    $scope.loggedSessions = loggedWorkoutSessions.getLatest();
+    $scope.loggedSessions = [];
 
     $scope.remove = function (id) {
         $scope.loggedSessions = $scope.loggedSessions.filter(function(item) {
@@ -276,6 +276,10 @@ angular.module('fiziq.controllers', [])
         });
         loggedWorkoutSessions.removeWorkoutSession(id);
     };
+
+    $scope.$on('$ionicView.enter', function() {
+        $scope.loggedSessions = loggedWorkoutSessions.getLatest();
+    });
 })
 
 ;
