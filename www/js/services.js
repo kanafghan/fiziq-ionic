@@ -555,7 +555,8 @@ angular.module('fiziq.services', [])
 
 .service('activeWorkoutSession', function(
     $localstorage,
-    WorkoutSession
+    WorkoutSession,
+    Timer
 ) {
     var workoutSession = null;
     var timer = null;
@@ -597,7 +598,11 @@ angular.module('fiziq.services', [])
             return;
         }
 
-        $localstorage.setObject('fiziq.active_workout_session', workoutSession.toJson());
+        var session = {
+            timer: timer.toJson(),
+            session: workoutSession.toJson()
+        };
+        $localstorage.setObject('fiziq.active_workout_session', session);
     };
 
     this.load = function () {
@@ -611,7 +616,10 @@ angular.module('fiziq.services', [])
         }
 
         workoutSession = new WorkoutSession();
-        workoutSession.fromJson(session);
+        workoutSession.fromJson(session.session);
+
+        timer = new Timer();
+        timer.fromJson(session.timer);
 
         return workoutSession;
     };
@@ -699,26 +707,45 @@ angular.module('fiziq.services', [])
     $interval
 ) {
     return function() {
-        var timer = new Date(0, 0, 0, 0, 0, 0, 0),
-            stop  = null
+        var watch  = new Date(0, 0, 0, 0, 0, 0, 0),
+            origin = new Date(),
+            timer  = null
         ;
 
+        function tick() {
+            watch = new Date(0, 0, 0, 0, 0, 0, 0);
+            var now = new Date();
+
+            watch.setMilliseconds(now - origin);
+        }
+
         this.start = function() {
-            if (stop) {
+            if (timer) {
                 return;
             }
 
-            stope = $interval(function() {
-                timer.setSeconds(timer.getSeconds() + 1);
+            timer = $interval(function() {
+                tick();
             }, 1000);
         };
 
         this.stop = function() {
-            $interval.cancel(stop);
+            $interval.cancel(timer);
         };
 
         this.get = function() {
-            return timer;
+            return watch;
+        };
+
+        this.toJson = function() {
+            return {
+                origin: origin
+            };
+        };
+
+        this.fromJson = function(data) {
+            origin = new Date(data.origin);
+            this.start();
         };
     };
 })
