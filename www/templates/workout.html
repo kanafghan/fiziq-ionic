@@ -32,9 +32,12 @@
             <ion-item class="item-divider padding-left">
                 <strong>Currently Logged:</strong>
             </ion-item>
-            <ion-item ng-repeat="set in sets" class="item-icon-right">
+            <ion-item ng-repeat="set in sets" class="item-button-right">
                 Set #{{ $index + 1 }}: <strong>{{ set.weight }} kg, {{ set.reps }} reps</strong>
-                <i class="icon ion-close-circled" ng-click="removeSet($index)"></i>
+                <div class="buttons">
+                    <button class="button button-icon icon ion-ios-copy positive" ng-click="duplicateSet(set)"></button>
+                    <button class="button button-icon icon ion-close-circled assertive" ng-click="removeSet($index)"></button>
+                </div>
             </ion-item>
         </ion-list>
 

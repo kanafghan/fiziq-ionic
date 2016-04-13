@@ -128,6 +128,11 @@ angular.module('fiziq.controllers', [])
         activeWorkout.terminate();
         $state.go('app.selection', {sessionId: $stateParams.sessionId});
     };
+
+    $scope.duplicateSet = function(set) {
+        $scope.set = new WorkoutSet(set.weight, set.reps);
+        $scope.addSet();
+    };
 })
 
 .controller('DoneCtrl', function(
