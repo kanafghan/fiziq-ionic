@@ -540,16 +540,21 @@ angular.module('fiziq.services', [])
 })
 
 .factory('WorkoutSet', function() {
+
     return function(weight, reps) {
         this.weight = weight;
         this.reps = reps;
 
-        this.toJson = function () {
+        this.toJson = function() {
             return {
                 weight: this.weight,
                 reps: this.reps
             };
         };
+
+        this.isValid = function() {
+            return angular.isNumber(this.weight) && angular.isNumber(this.reps);
+        }
     };
 })
 

@@ -65,10 +65,9 @@ angular.module('fiziq.controllers', [])
         activeWorkout.getWorkout().duration = duration;
     };
 
-    $scope.set = {};
+    $scope.set = new WorkoutSet(0);
     $scope.addSet = function () {
-        var set = $scope.set;
-        if (!set || !angular.isNumber(set.weight) || !angular.isNumber(set.reps)) {
+        if (!$scope.set.isValid()) {
             $ionicPopup.alert({
                 title: 'Add Set',
                 template: 'Please fill in the Reps and Weight first.'
@@ -81,10 +80,10 @@ angular.module('fiziq.controllers', [])
             return;
         }
 
-        activeWorkout.getWorkout().addWorkoutSet(new WorkoutSet(set.weight, set.reps));
+        activeWorkout.getWorkout().addWorkoutSet($scope.set);
         $scope.sets = activeWorkout.getWorkout().getWorkoutSets();
 
-        $scope.set = {};
+        $scope.set = new WorkoutSet(0);
 
         activeWorkout.store();
     };
@@ -128,6 +127,11 @@ angular.module('fiziq.controllers', [])
         activeWorkoutSession.getWorkoutSession().removeWorkout(activeWorkout.getWorkout());
         activeWorkout.terminate();
         $state.go('app.selection', {sessionId: $stateParams.sessionId});
+    };
+
+    $scope.duplicateSet = function(set) {
+        $scope.set = new WorkoutSet(set.weight, set.reps);
+        $scope.addSet();
     };
 })
 
