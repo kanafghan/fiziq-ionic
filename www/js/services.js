@@ -479,6 +479,14 @@ angular.module('fiziq.services', [])
 
             return false;
         };
+
+        this.pruneWorkouts = function() {
+            for (var i = 0; i < workouts.length; i++) {
+                if (!workouts[i].isValid()) {
+                    workouts.splice(i, 1);
+                }
+            }
+        };
     };
 })
 
@@ -506,6 +514,10 @@ angular.module('fiziq.services', [])
 
         this.getWorkoutSets = function () {
             return workoutSets;
+        };
+
+        this.isValid = function() {
+            return 0 !== workoutSets.length && 0 < this.duration;
         };
 
         this.toJson = function () {
@@ -571,6 +583,10 @@ angular.module('fiziq.services', [])
     };
 
     this.getWorkoutSession = function () {
+        if (workoutSession) {
+            workoutSession.pruneWorkouts();
+        }
+
         return workoutSession;
     };
 
@@ -586,6 +602,8 @@ angular.module('fiziq.services', [])
         if (!workoutSession || !workoutSession.isValid()) {
             return;
         }
+
+        workoutSession.pruneWorkouts();
 
         var sessions = $localstorage.get('fiziq.workout_sessions', null);
         sessions = !sessions ? workoutSession.id : workoutSession.id + ',' + sessions;
