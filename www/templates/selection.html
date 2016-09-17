@@ -1,36 +1,35 @@
 <ion-view view-title="Select Workout">
     <ion-content>
-        <div>
-            <label class="item item-input item-select">
-                <div class="input-label">
-                    <strong>Muscle:</strong>
-                </div>
+        <form class="card">
+            <label class="item item-select">
+                <label class="input-label">Muscle:</label>
                 <select ng-options="item.label for item in muscleGroups track by item.label"
-                        ng-model="$parent.selectedMuscleGroup"
+                        ng-model="selection.muscleGroup"
                         ng-change="updateWorkouts()">
                 </select>
             </label>
-            <label class="item item-input item-select">
-                <div class="input-label">
-                    <strong>Workout:</strong>
-                </div>
-                <select ng-options="item.label for item in workouts"
-                        ng-model="$parent.selectedWorkout"
+            <label class="item item-select">
+                <label class="input-label">Workout:</label>
+                <select ng-options="workout.label for workout in workouts"
+                        ng-model="selection.workout"
                         ng-change="doSelect()">
                 </select>
             </label>
-            <button class="button button-block button-positive" ng-click="start()">
-                Start!
-            </button>
-        </div>
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" href="#" ng-click="start()">
+                  <i class="icon ion-flash positive"></i>
+                  Start!
+                </a>
+            </div>
+        </form>
 
         <div class="row">
-            <div class="col"  style="text-align: center" ng-repeat="image in $parent.selectedWorkout.images track by $index">
+            <div class="col"  style="text-align: center" ng-repeat="image in selection.workout.images track by $index">
                 <img ng-src="{{ image }}" style="width: 130px">
             </div>
         </div>
 
-        <div>        
+        <div>
             <h3 class="padding-left">Latest logged sessions:</h3>
             <ion-list>
                 <ion-item class="item-divider" ng-repeat="session in loggedSessions">

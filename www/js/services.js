@@ -1,13 +1,13 @@
 angular.module('fiziq.services', [])
 
 .value('muscleGroups', [
-    {label : 'Chest'},
-    {label : 'Shoulders'},
-    {label : 'Back'},
-    {label : 'Biceps'},
-    {label : 'Triceps'},
-    {label : 'Legs'},
-    {label : 'Abs'}
+    {label: 'Chest'},
+    {label: 'Shoulders'},
+    {label: 'Back'},
+    {label: 'Biceps'},
+    {label: 'Triceps'},
+    {label: 'Legs'},
+    {label: 'Abs'}
 ])
 
 .value('workouts', {

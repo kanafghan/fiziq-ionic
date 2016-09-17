@@ -189,13 +189,15 @@ angular.module('fiziq.controllers', [])
     var init = function () {
         $scope.muscleGroups = muscleGroups;
         $scope.workouts = [];
-        $scope.selectedMuscleGroup = null;
-        $scope.selectedWorkout = null;
         $scope.loggedSessions = loggedWorkoutSessions.getLatest(2);
+        $scope.selection = {
+            muscleGroup: null,
+            workout: null
+        };
     };
 
     var processSelection = function () {
-        var newWorkout = new Workout($scope.selectedWorkout.label);
+        var newWorkout = new Workout($scope.selection.workout.label);
         if (!activeWorkoutSession.getWorkoutSession().hasWorkout(newWorkout)) {
             activeWorkoutSession.getWorkoutSession().addWorkout(newWorkout);
         } else {
@@ -208,7 +210,7 @@ angular.module('fiziq.controllers', [])
 
     var getWorkoutsBasedOnMuscleGroupSelection = function () {
         for (var key in workouts) {
-            if (key == $scope.selectedMuscleGroup.label) {
+            if (key == $scope.selection.muscleGroup.label) {
                 return workouts[key];
             }
         }
