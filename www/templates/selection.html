@@ -24,9 +24,9 @@
             </div>
         </form>
 
-        <div class="row">
-            <div class="col"  style="text-align: center" ng-repeat="image in selection.workout.images track by $index">
-                <img ng-src="{{ image }}" style="width: 130px">
+        <div class="card" ng-repeat="image in selection.workout.images track by $index">
+            <div class="item item-image">
+                <img ng-src="{{ image }}">
             </div>
         </div>
 
