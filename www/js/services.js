@@ -14,108 +14,135 @@ angular.module('fiziq.services', [])
     'Chest' : [
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Barbell Flat Bench Press'
+            label: 'Barbell Flat Bench Press',
+            muscle_group: 'Chest'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Barbell Incline Bench Press'
+            label: 'Barbell Incline Bench Press',
+            muscle_group: 'Chest'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Dumbbell Flat Bench Press'
+            label: 'Dumbbell Flat Bench Press',
+            muscle_group: 'Chest'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Dumbbell Incline Bench Press'
+            label: 'Dumbbell Incline Bench Press',
+            muscle_group: 'Chest'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Decline Dumbbell Bench Press'
+            label: 'Decline Dumbbell Bench Press',
+            muscle_group: 'Chest'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Flat Bench Dumbbell Fly'
+            label: 'Flat Bench Dumbbell Fly',
+            muscle_group: 'Chest'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Incline Dumbbell Fly'
+            label: 'Incline Dumbbell Fly',
+            muscle_group: 'Chest'
         },
         {
             images: ['img/decline-dumbbell-flyes.png'],
-            label : 'Decline Dumbbell Fly'
+            label: 'Decline Dumbbell Fly',
+            muscle_group: 'Chest'
         },
         {
             images: ['img/cable-crossover.png'],
-            label : 'Cable Crossovers'
+            label: 'Cable Crossovers',
+            muscle_group: 'Chest'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Dumbbell Pullover'
+            label: 'Dumbbell Pullover',
+            muscle_group: 'Chest'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Parallel Bar Dip'
+            label: 'Parallel Bar Dip',
+            muscle_group: 'Chest'
         }
     ],
     'Shoulders' : [
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Seated Dumbbell Press'
+            label: 'Seated Dumbbell Press',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Front Raises'
+            label: 'Front Raises',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Lateral Raises'
+            label: 'Lateral Raises',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Reverse Flyes'
+            label: 'Reverse Flyes',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Single Arm Lateral Raise With Dumbbell'},
-        {
-            images: ['img/workout-icon.jpg'],
-            label : 'Upright Cable Rows'
+            label: 'Single Arm Lateral Raise With Dumbbell',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Upright Barbell Rows'
+            label: 'Upright Cable Rows',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Seated Military Press On Smith Machine (Front)'
+            label: 'Upright Barbell Rows',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Seated Military Press On Smith Machine (Back)'
+            label: 'Seated Military Press On Smith Machine (Front)',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Military Shoulder Barbell Presses (Front)'
+            label: 'Seated Military Press On Smith Machine (Back)',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Military Shoulder Barbell Presses (Back)'
+            label: 'Military Shoulder Barbell Presses (Front)',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Single Side Cable Lateral Raise'
+            label: 'Military Shoulder Barbell Presses (Back)',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Standing Shrugs with Dumbbells'
+            label: 'Single Side Cable Lateral Raise',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Standing Shrugs with Barbell'
+            label: 'Standing Shrugs with Dumbbells',
+            muscle_group: 'Shoulders'
+        },
+        {
+            images: ['img/workout-icon.jpg'],
+            label: 'Standing Shrugs with Barbell',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/face-pull-1.jpg', 'img/face-pull-2.jpg'],
-            label : 'Face Pull'
+            label: 'Face Pull',
+            muscle_group: 'Shoulders'
         },
         {
             images: [
@@ -124,268 +151,347 @@ angular.module('fiziq.services', [])
                 'img/side-laterals-to-front-raises-3.jpg',
                 'img/side-laterals-to-front-raises-4.jpg'
             ],
-            label: 'Side Laterals to Front Raises'
+            label: 'Side Laterals to Front Raises',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Smith Machine Shrugs'
+            label: 'Smith Machine Shrugs',
+            muscle_group: 'Shoulders'
         },
         {
             images: ['img/seated-shoulder-press-machine.jpg'],
-            label : 'Seated Machine Shoulder Presses'
+            label: 'Seated Machine Shoulder Presses',
+            muscle_group: 'Shoulders'
         }
     ],
     'Back' : [
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Pull-Ups'
+            label: 'Pull-Ups',
+            muscle_group: 'Back'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Wide-Grip Lat Pulldown'
+            label: 'Wide-Grip Lat Pulldown',
+            muscle_group: 'Back'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'One-Arm Dumbbell Rows'
+            label: 'One-Arm Dumbbell Rows',
+            muscle_group: 'Back'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Seated Cable Rows'
+            label: 'Seated Cable Rows',
+            muscle_group: 'Back'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Back Extensions'
+            label: 'Back Extensions',
+            muscle_group: 'Back'
         },
         {
             images: ['img/machine-back-extension.jpg'],
-            label : 'Machine Back Extensions'
+            label: 'Machine Back Extensions',
+            muscle_group: 'Back'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Straight-Arm Pulldowns'
+            label: 'Straight-Arm Pulldowns',
+            muscle_group: 'Back'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Bent-over Barbell Rows'
+            label: 'Bent-over Barbell Rows',
+            muscle_group: 'Back'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Deadlifts'
+            label: 'Deadlifts',
+            muscle_group: 'Back'
         },
         {
             images: ['img/t-bar-row-with-handle.png'],
-            label : 'T-Bar Row with Handle'
+            label: 'T-Bar Row with Handle',
+            muscle_group: 'Back'
         }
     ],
     'Biceps' : [
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Seated Alternate Dumbbell Curl'
+            label: 'Seated Alternate Dumbbell Curl',
+            muscle_group: 'Biceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Barbell Curls'
+            label: 'Barbell Curls',
+            muscle_group: 'Biceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Preacher Curls'
+            label: 'Preacher Curls',
+            muscle_group: 'Biceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Concentration Curls'
+            label: 'Concentration Curls',
+            muscle_group: 'Biceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Dumbbell Becips Curls'
+            label: 'Dumbbell Becips Curls',
+            muscle_group: 'Biceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Cable Curls'
+            label: 'Cable Curls',
+            muscle_group: 'Biceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Hammer Curls'
+            label: 'Hammer Curls',
+            muscle_group: 'Biceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Seated Inclined Biceps Curls'
+            label: 'Seated Inclined Biceps Curls',
+            muscle_group: 'Biceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Lying Dumbbell Biceps Curls'
+            label: 'Lying Dumbbell Biceps Curls',
+            muscle_group: 'Biceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Close Grip Chin Ups'
+            label: 'Close Grip Chin Ups',
+            muscle_group: 'Biceps'
         }
     ],
     'Triceps' : [
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Lying Triceps Presses'
+            label: 'Lying Triceps Presses',
+            muscle_group: 'Triceps'
         },
         {
             images: ['img/tricep-dumbbell-kickback.png'],
-            label : 'Triceps Kickbacks'
+            label: 'Triceps Kickbacks',
+            muscle_group: 'Triceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Triceps Pushdowns'
+            label: 'Triceps Pushdowns',
+            muscle_group: 'Triceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Overhead Rope Extensions'
+            label: 'Overhead Rope Extensions',
+            muscle_group: 'Triceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Bench Dips'
+            label: 'Bench Dips',
+            muscle_group: 'Triceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Dips on the Dip Machine'
+            label: 'Dips on the Dip Machine',
+            muscle_group: 'Triceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Close Grip Bench Press'
+            label: 'Close Grip Bench Press',
+            muscle_group: 'Triceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'One Arm Dumbbell Extension'
+            label: 'One Arm Dumbbell Extension',
+            muscle_group: 'Triceps'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Seated Triceps Dumbbell Extension'
+            label: 'Seated Triceps Dumbbell Extension',
+            muscle_group: 'Triceps'
         }
     ],
     'Legs' : [
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Barbell Squats'
+            label: 'Barbell Squats',
+            muscle_group: 'Legs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Leg Presses'
+            label: 'Leg Presses',
+            muscle_group: 'Legs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Leg Extensions'
+            label: 'Leg Extensions',
+            muscle_group: 'Legs'
         },
         {
             images: ['img/dumbbell-lunges.png'],
-            label : 'Dumbbell Lunges'
+            label: 'Dumbbell Lunges',
+            muscle_group: 'Legs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Sissy Squat'
+            label: 'Sissy Squat',
+            muscle_group: 'Legs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Lying Leg Curls'
+            label: 'Lying Leg Curls',
+            muscle_group: 'Legs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Seated Calf Raises'
+            label: 'Seated Calf Raises',
+            muscle_group: 'Legs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Standing Heel Raises'
+            label: 'Standing Heel Raises',
+            muscle_group: 'Legs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Squats on Smith Machine'
+            label: 'Squats on Smith Machine',
+            muscle_group: 'Legs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Stift-leg Deadlifts'
+            label: 'Stift-leg Deadlifts',
+            muscle_group: 'Legs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Glute Machine'
+            label: 'Glute Machine',
+            muscle_group: 'Legs'
         }
     ],
     'Abs' : [
         {
             images: ['img/workout-icon.jpg', 'img/workout-icon.jpg'],
-            label : 'Floor Crunches'
+            label: 'Floor Crunches',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Incline Knee Raises'
+            label: 'Incline Knee Raises',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Decline Crunches'
+            label: 'Decline Crunches',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/incline-situps.png'],
-            label : 'Incline Sit Ups'
+            label: 'Incline Sit Ups',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Hanging Knee Raises'
+            label: 'Hanging Knee Raises',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Reverse Crunches'
+            label: 'Reverse Crunches',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Cable Crunches'
+            label: 'Cable Crunches',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'The Swiss ball crunch'
+            label: 'The Swiss ball crunch',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Knee Raises'
+            label: 'Knee Raises',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/lying-leg-raises-s1.png', 'img/lying-leg-raises-s2.png'],
-            label : 'Lying Leg Raise'
+            label: 'Lying Leg Raise',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Vertical Leg Raises'
+            label: 'Vertical Leg Raises',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Plank'
+            label: 'Plank',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Dumbbell side bends'
+            label: 'Dumbbell side bends',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/workout-icon.jpg'],
-            label : 'Vacuum'
+            label: 'Vacuum',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/side-bends-at-hyperextension.png'],
-            label : 'Side Bends at Hyperextension'
+            label: 'Side Bends at Hyperextension',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/cable-kneeling-crunch.png'],
-            label : 'Cable Kneeling Crunches'
+            label: 'Cable Kneeling Crunches',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/abdominal-air-bike-1.png', 'img/abdominal-air-bike-2.png'],
-            label : 'Abdominal Air Bike'
+            label: 'Abdominal Air Bike',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/plank-with-arm-raise-1.png', 'img/plank-with-arm-raise-2.png', 'img/plank-with-arm-raise-3.png'],
-            label : 'Plank with Arm Raise'
+            label: 'Plank with Arm Raise',
+            muscle_group: 'Abs'
         },
         {
             images: ['img/side-plank-1.png'],
-            label : 'Side Plank'
+            label: 'Side Plank',
+            muscle_group: 'Abs'
         }
     ]
 })
 
 .factory('WorkoutSession', function(
+    workouts,
     Workout
 ) {
+
+    function hasMuscleGroupWorkout(muscleGroup, workout) {
+        var muscleGroupWorkouts = workouts[muscleGroup];
+        if (!muscleGroupWorkouts) {
+            return false;
+        }
+
+        for (var i = muscleGroupWorkouts.length - 1; i >= 0; i--) {
+            if (muscleGroupWorkouts[i].label.toLowerCase() === workout.name.toLowerCase()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     return function() {
         var d = new Date();
         this.id = d.getTime();
@@ -487,15 +593,35 @@ angular.module('fiziq.services', [])
                 }
             }
         };
+
+        this.hasWorkoutForMuscleGroup = function(muscleGroup) {
+            for (var i = workouts.length - 1; i >= 0; i--) {
+                if (!workouts[i].muscleGroup) {
+                    // search through workouts list for legacy cases
+                    if (hasMuscleGroupWorkout(muscleGroup, workouts[i])) {
+                        return true;
+                    }
+
+                    continue;
+                }
+
+                if (workouts[i].muscleGroup.toLowerCase() === muscleGroup.toLowerCase()) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
     };
 })
 
 .factory('Workout', function(
     WorkoutSet
 ) {
-    return function(name) {
+    return function(name, muscleGroup) {
         this.id = new Date().getTime();
         this.name = name;
+        this.muscleGroup = muscleGroup;
         this.duration = 0; // number of seconds
 
         var workoutSets = [];
@@ -529,6 +655,7 @@ angular.module('fiziq.services', [])
             return {
                 id: this.id,
                 name: this.name,
+                muscle_group: this.muscleGroup,
                 duration: this.duration,
                 workoutSets: sets
             };
@@ -537,6 +664,7 @@ angular.module('fiziq.services', [])
         this.fromJson = function (json) {
             this.id   = json.id ? json.id : this.id;
             this.name = json.name;
+            this.muscleGroup = json.muscle_group;
             this.duration = json.duration;
 
             for (var i = 0; i < json.workoutSets.length; i++) {
@@ -802,7 +930,7 @@ angular.module('fiziq.services', [])
             var session = new WorkoutSession();
             session.fromJson(loggedSession);
 
-            result[result.length] = session;
+            result.push(session);
         }
 
         return result;
@@ -841,6 +969,33 @@ angular.module('fiziq.services', [])
         // remove the session itself
         $localstorage.remove('fiziq.workout_sessions.' + id);
     };
+
+    this.findCountOfMuscleGroup = function (muscleGroup) {
+        var sessions = this.getLatest();
+
+        var count = 0;
+        for (var i = 0; i < sessions.length; i++) {
+            if (sessions[i].hasWorkoutForMuscleGroup(muscleGroup)) {
+                count++;
+            }
+        }
+
+        return count;
+    };
+
+    this.findCountOfWorkout = function (workout) {
+        var sessions = this.getLatest();
+
+        var count = 0;
+        for (var i = 0; i < sessions.length; i++) {
+            if (sessions[i].hasWorkout(workout)) {
+                count++;
+            }
+        }
+
+        return count;
+    };
+
 })
 
 ;

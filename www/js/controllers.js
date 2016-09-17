@@ -187,17 +187,25 @@ angular.module('fiziq.controllers', [])
     loggedWorkoutSessions
 ) {
     var init = function () {
-        $scope.muscleGroups = muscleGroups;
+        $scope.muscleGroups = [];
         $scope.workouts = [];
         $scope.loggedSessions = loggedWorkoutSessions.getLatest(2);
         $scope.selection = {
             muscleGroup: null,
             workout: null
         };
+
+        angular.forEach(muscleGroups, function(group){
+            var count = loggedWorkoutSessions.findCountOfMuscleGroup(group.label);
+            this.push({
+                label: group.label,
+                count: count
+            });
+        }, $scope.muscleGroups);
     };
 
     var processSelection = function () {
-        var newWorkout = new Workout($scope.selection.workout.label);
+        var newWorkout = new Workout($scope.selection.workout.label, $scope.selection.muscleGroup);
         if (!activeWorkoutSession.getWorkoutSession().hasWorkout(newWorkout)) {
             activeWorkoutSession.getWorkoutSession().addWorkout(newWorkout);
         } else {
@@ -210,8 +218,19 @@ angular.module('fiziq.controllers', [])
 
     var getWorkoutsBasedOnMuscleGroupSelection = function () {
         for (var key in workouts) {
-            if (key == $scope.selection.muscleGroup.label) {
-                return workouts[key];
+            if (key.toLowerCase() === $scope.selection.muscleGroup.toLowerCase()) {
+                var result = [];
+                angular.forEach(workouts[key], function(workout) {
+                    var w = new Workout(workout.label, workout.muscle_group);
+                    var count = loggedWorkoutSessions.findCountOfWorkout(w);
+                    this.push({
+                        label: '(' + count + ') ' + workout.label,
+                        count: count,
+                        value: workout
+                    });
+                }, result);
+
+                return result;
             }
         }
 

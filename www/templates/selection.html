@@ -3,14 +3,15 @@
         <form class="card">
             <label class="item item-select">
                 <label class="input-label">Muscle:</label>
-                <select ng-options="item.label for item in muscleGroups track by item.label"
-                        ng-model="selection.muscleGroup"
+                <select ng-model="selection.muscleGroup"
                         ng-change="updateWorkouts()">
+                    <option ng-repeat="group in muscleGroups|orderBy:'count' track by group.label"
+                            value="{{ group.label }}">({{  group.count }}) {{ group.label }}</option>
                 </select>
             </label>
             <label class="item item-select">
                 <label class="input-label">Workout:</label>
-                <select ng-options="workout.label for workout in workouts"
+                <select ng-options="workout.value as workout.label for workout in workouts|orderBy:'count'"
                         ng-model="selection.workout"
                         ng-change="doSelect()">
                 </select>
