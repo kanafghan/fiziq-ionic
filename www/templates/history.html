@@ -1,21 +1,27 @@
 <ion-view view-title="History">
     <ion-content>
-        <ion-list>
-            <ion-item ng-repeat="session in loggedSessions">
+        <div class="card" ng-repeat="session in loggedSessions">
+            <ion-item class="item-divider">
                 <strong>{{ session.startedAt|date:'fullDate' }}</strong>
-                <table>
-                    <tr ng-repeat="workout in session.getWorkouts()">
-                        <td style="border: 1px solid #000; padding: 5px 5px">
-                            {{ workout.name }}
-                        </td>
-                        <td style="border: 1px solid #000; padding: 5px 5px" 
-                            ng-repeat="set in workout.getWorkoutSets()">
-                            {{ set.weight }}x{{ set.reps }}
-                        </td>
-                    </tr>
-                </table>
-                <button class="button button-block button-assertive" ng-click="remove({{ session.id }})">Remove Log</button>
             </ion-item>
-        </ion-list>
+
+            <ion-item ng-repeat="workout in session.getWorkouts()">
+                <h2>
+                    {{ workout.name }}
+                </h2>
+                <p>
+                    <code ng-repeat="set in workout.getWorkoutSets()">
+                        {{ set.weight }}x{{ set.reps }}
+                    </code>
+                </p>
+            </ion-item>
+
+            <ion-item class="tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" href="#" ng-click="remove({{ session.id }})">
+                  <i class="icon ion-trash-a assertive"></i>
+                  Remove Log
+                </a>
+            </ion-item>
+        </div>
     </ion-content>
 </ion-view>
