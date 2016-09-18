@@ -307,4 +307,86 @@ angular.module('fiziq.controllers', [])
     });
 })
 
+.controller('WorkoutsPoolCtrl', function(
+    $scope,
+    $ionicPopup,
+    user,
+    workouts,
+    muscleGroups,
+    WorkoutsPool,
+    Workout
+){
+    $scope.muscleGroups = muscleGroups;
+    $scope.selection = {
+        workouts: []
+    };
+    $scope.workoutsPool = user.getWorkoutsPool();
+    $scope.workouts = [];
+
+    angular.forEach(workouts, function(workoutsList){
+        if ($scope.workoutsPool) {
+            var filteredWorkouts = [];
+            angular.forEach(workoutsList, function(workout){
+                var w = new Workout(workout.label, workout.muscle_group);
+                if (!$scope.workoutsPool.hasWorkout(w)) {
+                    this.push(workout);
+                }
+            }, filteredWorkouts);
+
+            $scope.workouts = $scope.workouts.concat(filteredWorkouts);
+        } else {
+            $scope.workouts = $scope.workouts.concat(workoutsList);
+        }
+    });
+
+    $scope.add = function () {
+        console.log('Selected Workouts: ', $scope.selection.workouts);
+        if (!$scope.selection.workouts.length) {
+            return $ionicPopup.alert({
+                title: 'Select Workout',
+                template: 'Please select one or more workouts first!'
+            });
+        }
+
+        if (!$scope.workoutsPool) {
+            $scope.workoutsPool = new WorkoutsPool();
+        }
+
+        angular.forEach($scope.selection.workouts, function(workout){
+            var w = new Workout(workout.label, workout.muscle_group);
+            $scope.workoutsPool.addWorkout(w);
+
+            // remove the workout from the list of selectables
+            for (var i = $scope.workouts.length - 1; i >= 0; i--) {
+                if ($scope.workouts[i].label === workout.label) {
+                    $scope.workouts.splice(i, 1);
+                }
+            }
+        });
+
+        user.storeWorkoutsPool($scope.workoutsPool);
+    };
+
+    $scope.remove = function (workout) {
+        $scope.workoutsPool.removeWorkout(workout);
+        user.storeWorkoutsPool($scope.workoutsPool);
+    };
+
+    $scope.getWorkoutsByMuscleGroup = function (muscleGroup) {
+        if (!$scope.workoutsPool) {
+            return [];
+        }
+
+        var result = [];
+        var workouts = $scope.workoutsPool.getWorkouts();
+        for (var i = workouts.length - 1; i >= 0; i--) {
+            if (workouts[i].muscleGroup.toLowerCase() === muscleGroup.label.toLowerCase()) {
+                result.push(workouts[i]);
+            }
+        }
+
+        return result;
+    };
+})
+
 ;

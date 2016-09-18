@@ -826,31 +826,51 @@ angular.module('fiziq.services', [])
 })
 
 .service('user', function(
-    $localstorage
+    $localstorage,
+    WorkoutsPool
 ) {
-    this.key = null;
-    this.name = null;
-    this.email = null;
+    var key = null,
+        name = null,
+        email = null,
+        workoutsPool = null
+    ;
 
-    this.load = function () {
+    function load() {
         var data = $localstorage.getObject('fiziq.user.data');
-        this.name = data.name;
-        this.email = data.email;
-    };
+        name = data.name;
+        email = data.email;
+
+        var pool = $localstorage.getObject('fiziq.user.workouts_pool');
+        if (pool) {
+            workoutsPool = new WorkoutsPool();
+            workoutsPool.fromJson(pool);
+        }
+    }
 
     this.isRegistered = function () {
         return 'true' === $localstorage.get('fiziq.user.registered', 'false');
     };
 
     this.register = function (name, email) {
-        this.name = name;
-        this.email = email;
+        name = name;
+        email = email;
 
         $localstorage.setObject('fiziq.user.data', {
-            name : this.name,
-            email : this.email
+            name: name,
+            email: email
         });
         $localstorage.set('fiziq.user.registered', 'true');
+    };
+
+    this.storeWorkoutsPool = function (pool) {
+        workoutsPool = pool;
+        $localstorage.setObject('fiziq.user.workouts_pool', workoutsPool.toJson());
+    };
+
+    this.getWorkoutsPool = function () {
+        load();
+
+        return workoutsPool;
     };
 })
 
@@ -996,6 +1016,66 @@ angular.module('fiziq.services', [])
         return count;
     };
 
+})
+
+.factory('WorkoutsPool', function(
+    Workout
+) {
+
+    return function() {
+
+        var workouts = [];
+
+        this.addWorkout = function (workout) {
+            workouts.push(workout);
+        };
+
+        this.removeWorkout = function (workout) {
+            for (var i = 0, l = workouts.length; i < l; i++) {
+                if (workouts[i].name.toLowerCase() === workout.name.toLowerCase()) {
+                    workouts.splice(i, 1);
+
+                    return;
+                }
+            }
+        };
+
+        this.getWorkouts = function () {
+            return workouts;
+        };
+
+        this.toJson = function () {
+            var workoutsAsJson = [];
+            for (var i = 0; i < workouts.length; i++) {
+                workoutsAsJson[i] = workouts[i].toJson();
+            }
+
+            return {
+                workouts: workoutsAsJson
+            };
+        };
+
+        this.fromJson = function (json) {
+            if (!json.workouts) {
+                return;
+            }
+
+            for (var i = 0; i < json.workouts.length; i++) {
+                var workout = new Workout(json.workouts[i].name, json.workouts[i].muscle_group);
+                this.addWorkout(workout);
+            }
+        };
+
+        this.hasWorkout = function (workout) {
+            for (var i = 0, l = workouts.length; i < l; i++) {
+                if (workouts[i].name.toLowerCase() === workout.name.toLowerCase()) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+    };
 })
 
 ;

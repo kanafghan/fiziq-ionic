@@ -1,9 +1,9 @@
 // Fiziq - Ionic App
 
 angular.module('fiziq', [
-    'ionic', 
-    'ionic.utils', 
-    'fiziq.controllers', 
+    'ionic',
+    'ionic.utils',
+    'fiziq.controllers',
     'fiziq.services'
 ])
 
@@ -77,6 +77,16 @@ angular.module('fiziq', [
             'menuContent': {
                 templateUrl: "templates/history.html",
                 controller: 'HistoryCtrl'
+            }
+        }
+    })
+
+    .state('app.workouts-pool', {
+        url: "/workouts-pool",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/workouts_pool.html",
+                controller: 'WorkoutsPoolCtrl'
             }
         }
     })

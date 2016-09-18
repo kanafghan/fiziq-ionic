@@ -1,0 +1,41 @@
+<ion-view view-title="Workouts Pool">
+    <ion-content>
+        <form class="card">
+            <div class="item item-divider">
+                <h2>Add workout to your workouts pool</h2>
+            </div>
+            <label class="item item-select">
+                <label class="input-label">Workout:</label>
+                <select ng-options="workout as workout.label group by workout.muscle_group for workout in workouts|orderBy:'muscle_group'"
+                        ng-model="selection.workouts" multiple>
+                </select>
+            </label>
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" href="#" ng-click="add()">
+                  <i class="icon ion-plus positive"></i>
+                  Add
+                </a>
+            </div>
+        </form>
+
+        <div class="card" ng-if="!workoutsPool">
+            <div class="item item-text-wrap">
+                Your workouts pool is currently empty. Add workouts from the
+                above list.
+            </div>
+        </div>
+
+        <div class="card" ng-repeat="group in muscleGroups|orderBy:'label'">
+            <ion-item class="item-divider">
+                <strong>{{ group.label }}</strong>
+            </ion-item>
+
+            <ion-item class="item-button-right" ng-repeat="workout in getWorkoutsByMuscleGroup(group)|orderBy:'name'">
+                {{ workout.name }}
+                <div class="buttons">
+                    <button class="button button-icon icon ion-close-circled assertive" ng-click="remove(workout)"></button>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
