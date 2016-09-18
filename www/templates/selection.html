@@ -30,18 +30,15 @@
             </div>
         </div>
 
-        <div>
-            <h3 class="padding-left">Latest logged sessions:</h3>
-            <ion-list>
-                <ion-item class="item-divider" ng-repeat="session in loggedSessions">
-                    <strong>{{ session.startedAt|date:'fullDate' }}</strong>
-                    <ul class="list">
-                        <li class="item" ng-repeat="workout in session.getWorkouts()">
-                            {{ workout.name }}
-                        </li>
-                    </ul>
-                </ion-item>
-            </ion-list>
+        <h3 class="padding-left">Latest logged sessions:</h3>
+        <div class="card" ng-repeat="session in loggedSessions">
+            <ion-item class="item-divider">
+                <strong>{{ session.startedAt|date:'fullDate' }}</strong>
+            </ion-item>
+
+            <ion-item class="item" ng-repeat="workout in session.getWorkouts()">
+                {{ workout.name }}
+            </ion-item>
         </div>
     </ion-content>
 </ion-view>
