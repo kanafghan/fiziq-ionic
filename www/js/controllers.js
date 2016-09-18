@@ -184,7 +184,8 @@ angular.module('fiziq.controllers', [])
     Workout,
     Timer,
     activeWorkout,
-    loggedWorkoutSessions
+    loggedWorkoutSessions,
+    user
 ) {
     var init = function () {
         $scope.muscleGroups = [];
@@ -217,11 +218,16 @@ angular.module('fiziq.controllers', [])
     };
 
     var getWorkoutsBasedOnMuscleGroupSelection = function () {
+        var group = $scope.selection.muscleGroup;
         for (var key in workouts) {
-            if (key.toLowerCase() === $scope.selection.muscleGroup.toLowerCase()) {
+            if (key.toLowerCase() === group.toLowerCase()) {
                 var result = [];
                 angular.forEach(workouts[key], function(workout) {
                     var w = new Workout(workout.label, workout.muscle_group);
+                    if (!user.getWorkoutsPool().hasWorkout(w)) {
+                        return;
+                    }
+
                     var count = loggedWorkoutSessions.findCountOfWorkout(w);
                     this.push({
                         label: '(' + count + ') ' + workout.label,
@@ -287,6 +293,18 @@ angular.module('fiziq.controllers', [])
             activeWorkoutSession.setWorkoutSession(new WorkoutSession());
         }
     });
+
+    $scope.$on('$ionicView.afterEnter', function() {
+        if (!user.getWorkoutsPool() || !user.getWorkoutsPool().getWorkouts().length) {
+            $ionicPopup.alert({
+                title: 'Empty Workouts Pool',
+                template: 'Please build your workouts pool first!'
+            });
+
+            $state.go('app.workouts-pool');
+        }
+    });
+
 })
 
 .controller('HistoryCtrl', function(
