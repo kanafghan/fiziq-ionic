@@ -91,6 +91,16 @@ angular.module('fiziq', [
         }
     })
 
+    .state('app.workout-session', {
+        url: "/workout-session/:sessionId",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/workout_session.html",
+                controller: 'WorkoutSessionCtrl'
+            }
+        }
+    })
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/selection/0');
 })

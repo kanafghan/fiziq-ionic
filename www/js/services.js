@@ -578,12 +578,22 @@ angular.module('fiziq.services', [])
 
         this.findWorkoutByName = function(workoutName) {
             for (var i = 0, l = workouts.length; i < l; i++) {
-                if (workouts[i].name === workout.name) {
+                if (workouts[i].name === workoutName) {
                     return true;
                 }
             }
 
             return false;
+        };
+
+        this.findWorkoutById = function(workoutId) {
+            for (var i = 0, l = workouts.length; i < l; i++) {
+                if (workouts[i].id === parseInt(workoutId)) {
+                    return workouts[i];
+                }
+            }
+
+            return null;
         };
 
         this.pruneWorkouts = function() {
@@ -676,6 +686,13 @@ angular.module('fiziq.services', [])
                 this.addWorkoutSet(set);
             }
         };
+
+        this.getDurationTime = function () {
+            var time = new Date(0, 0, 0, 0, 0, 0, 0);
+            time.setSeconds(this.duration);
+
+            return time;
+        };
     };
 })
 
@@ -746,7 +763,7 @@ angular.module('fiziq.services', [])
         }
 
         var session = {
-            timer: timer.toJson(),
+            timer: timer ? timer.toJson() : {},
             session: workoutSession.toJson()
         };
         $localstorage.setObject('fiziq.active_workout_session', session);
@@ -774,50 +791,6 @@ angular.module('fiziq.services', [])
     this.terminate = function() {
         workoutSession = null;
         $localstorage.remove('fiziq.active_workout_session');
-    };
-})
-
-.service('activeWorkout', function(
-    $localstorage,
-    Workout
-) {
-    var workout = null;
-
-    this.setWorkout = function (w) {
-        workout = w;
-    };
-
-    this.getWorkout = function () {
-        return workout;
-    };
-
-    this.store = function () {
-        if (!workout) {
-            return;
-        }
-
-        $localstorage.setObject('fiziq.active_workout', workout.toJson());
-    };
-
-    this.load = function () {
-        if (workout) {
-            return workout;
-        }
-
-        var w = $localstorage.getObject('fiziq.active_workout');
-        if (angular.equals({}, w)) {
-            return null;
-        }
-
-        workout = new Workout();
-        workout.fromJson(w);
-
-        return workout;
-    };
-
-    this.terminate = function() {
-        workout = null;
-        $localstorage.remove('fiziq.active_workout');
     };
 })
 

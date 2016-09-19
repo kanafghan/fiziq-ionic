@@ -1,38 +1,41 @@
-<ion-view view-title="{{ workoutName }}" hide-back-button="true">
+<ion-view view-title="{{ workout.name }}">
     <ion-content>
         <h1 class="title padding-top text-center">
             {{ timer.get()|date:'mm:ss' }}
             <small class="dark">{{ sessionTimer.get()|date:"H'h' m'min'" }}</small>
         </h1>
-        <div class="list">
+        <div class="card">
             <label class="item item-input">
                 <span class="input-label">Weight:</span>
                 <input type="number" ng-model="set.weight"></input>
             </label>
+
             <label class="item item-input">
                 <span class="input-label">Reps:</span>
                 <input type="number" ng-model="set.reps"></input>
             </label>
-        </div>
 
-        <button class="button button-block button-positive" ng-click="addSet()">
-            Add Set
-        </button>
-        <button class="button button-block button-positive" ng-click="newWorkout()">
-            Log New Workout
-        </button>
-        <button class="button button-block button-positive" ng-click="done()">
-            Finish Training
-        </button>
-        <button class="button button-block button-assertive" ng-click="discardWorkout()">
-            Discard Workout
-        </button>
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" href="#" ng-click="back()">
+                  <i class="icon ion-ios-list positive"></i>
+                  Workouts
+                </a>
+                <a class="tab-item" href="#" ng-click="addSet()">
+                  <i class="icon ion-plus balanced"></i>
+                  Add Set
+                </a>
+                <a class="tab-item" href="#" ng-click="done()">
+                  <i class="icon ion-android-done-all positive"></i>
+                  Finish Training
+                </a>
+            </div>
+        </div>
 
         <ion-list>
             <ion-item class="item-divider padding-left">
                 <strong>Currently Logged:</strong>
             </ion-item>
-            <ion-item ng-repeat="set in sets" class="item-button-right">
+            <ion-item ng-repeat="set in workout.getWorkoutSets()" class="item-button-right">
                 Set #{{ $index + 1 }}: <strong>{{ set.weight }} kg, {{ set.reps }} reps</strong>
                 <div class="buttons">
                     <button class="button button-icon icon ion-ios-copy positive" ng-click="duplicateSet(set)"></button>

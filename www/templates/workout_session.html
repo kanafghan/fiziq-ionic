@@ -1,0 +1,36 @@
+<ion-view view-title="Workout Session">
+    <ion-content class="has-footer">
+        <h1 class="title padding-top text-center">
+            {{ timer.get()|date:"H'h' m'min'" }}
+        </h1>
+
+        <ion-list>
+            <ion-item ng-repeat="workout in workouts" ng-click="logWorkout(workout)">
+                <h2>
+                    {{ workout.name }}
+                </h2>
+                <p ng-if="workout.getWorkoutSets().length">
+                    <i class="icon ion-stats-bars"></i>
+                    <code ng-repeat="set in workout.getWorkoutSets()">
+                        {{ set.weight }}x{{ set.reps }}
+                    </code>
+                </p>
+                <p>
+                    <i class="icon ion-android-time"></i> {{ workout.getDurationTime()|date:"m'min' s'sec'" }}
+                </p>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+
+    <div class="tabs tabs-secondary tabs-icon-left">
+        <a nav-clear class="tab-item disable-user-behavior" href="#" ng-click="discard()">
+          <i class="icon ion-trash-a assertive"></i>
+          <span class="tab-title">Discard</span>
+        </a>
+        <a nav-clear class="tab-item disable-user-behavior" href="#" ng-click="done()">
+          <i class="icon ion-android-done-all balanced"></i>
+          <span class="tab-title">Finish Training</span>
+        </a>
+    </div>
+
+</ion-view>
