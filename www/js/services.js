@@ -711,10 +711,6 @@ angular.module('fiziq.services', [])
     };
 
     this.getWorkoutSession = function () {
-        if (workoutSession) {
-            workoutSession.pruneWorkouts();
-        }
-
         return workoutSession;
     };
 

@@ -188,6 +188,7 @@ angular.module('fiziq.controllers', [])
     user
 ) {
     var init = function () {
+        $scope.activeWorkoutSession = activeWorkoutSession;
         $scope.muscleGroups = [];
         $scope.workouts = [];
         $scope.loggedSessions = loggedWorkoutSessions.getLatest(2);
@@ -212,9 +213,6 @@ angular.module('fiziq.controllers', [])
         } else {
             newWorkout = activeWorkoutSession.getWorkoutSession().findWorkoutByName(newWorkout.name);
         }
-
-        activeWorkout.setWorkout(newWorkout);
-        activeWorkout.store();
     };
 
     var getWorkoutsBasedOnMuscleGroupSelection = function () {
@@ -247,8 +245,18 @@ angular.module('fiziq.controllers', [])
         $scope.workouts = getWorkoutsBasedOnMuscleGroupSelection();
     };
 
-    $scope.doSelect = function () {
+    $scope.add = function () {
+        if (!activeWorkout.getWorkout()) {
+            return $ionicPopup.alert({
+                title: 'Select Workout',
+                template: 'Please select a workout first!'
+            });
+        }
+
         processSelection();
+
+        $scope.selection.muscleGroup = null;
+        $scope.selection.workout = null;
     };
 
     $scope.start = function () {

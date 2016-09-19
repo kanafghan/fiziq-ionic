@@ -12,11 +12,14 @@
             <label class="item item-select">
                 <label class="input-label">Workout:</label>
                 <select ng-options="workout.value as workout.label for workout in workouts|orderBy:'count'"
-                        ng-model="selection.workout"
-                        ng-change="doSelect()">
+                        ng-model="selection.workout">
                 </select>
             </label>
             <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" href="#" ng-click="add()">
+                  <i class="icon ion-plus balanced"></i>
+                  Add
+                </a>
                 <a class="tab-item" href="#" ng-click="start()">
                   <i class="icon ion-play positive"></i>
                   Start!
@@ -28,6 +31,25 @@
             <div class="item item-image">
                 <img ng-src="{{ image }}">
             </div>
+        </div>
+
+        <div class="card">
+            <ion-item class="item-divider">
+                <strong>Selected Workouts</strong>
+            </ion-item>
+
+            <ion-item ng-if="!activeWorkoutSession.getWorkoutSession().getWorkouts().length">
+               <p>There are no selected workouts.</p>
+            </ion-item>
+
+            <ion-item ng-if="activeWorkoutSession.getWorkoutSession().getWorkouts().length"
+                      ng-repeat="workout in activeWorkoutSession.getWorkoutSession().getWorkouts()"
+                      class="item-button-right">
+                {{ workout.name }}
+                <div class="buttons">
+                    <button class="button button-icon icon ion-close-circled assertive" ng-click="activeWorkoutSession.getWorkoutSession().removeWorkout(workout)"></button>
+                </div>
+            </ion-item>
         </div>
 
         <h3 class="padding-left">Latest logged sessions:</h3>
