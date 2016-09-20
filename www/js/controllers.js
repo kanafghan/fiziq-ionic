@@ -279,6 +279,7 @@ angular.module('fiziq.controllers', [])
             timer.start();
             activeWorkoutSession.setTimer(timer);
         }
+        activeWorkoutSession.getWorkoutSession().startSession();
 
         activeWorkoutSession.store();
 
@@ -292,7 +293,7 @@ angular.module('fiziq.controllers', [])
     $scope.$on('$ionicView.beforeEnter', function() {
         var session = activeWorkoutSession.load();
 
-        if (session && activeWorkoutSession.getTimer()) {
+        if (session && session.isStarted()) {
             activeWorkoutSession.setWorkoutSession(session);
             $state.go('app.workout-session', {
                 sessionId: session.id

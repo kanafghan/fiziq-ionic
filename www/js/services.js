@@ -495,7 +495,7 @@ angular.module('fiziq.services', [])
     return function() {
         var d = new Date();
         this.id = d.getTime();
-        this.startedAt = d;
+        this.startedAt = null;
         this.endedAt = null;
 
         var workouts = [];
@@ -516,6 +516,14 @@ angular.module('fiziq.services', [])
 
         this.getWorkouts = function () {
             return workouts;
+        };
+
+        this.startSession = function () {
+            this.startedAt = new Date();
+        };
+
+        this.isStarted = function () {
+            return null !== this.startedAt;
         };
 
         this.endSession = function () {
@@ -782,8 +790,10 @@ angular.module('fiziq.services', [])
         workoutSession = new WorkoutSession();
         workoutSession.fromJson(session.session);
 
-        timer = new Timer();
-        timer.fromJson(session.timer);
+        if (!angular.equals({}, session.timer)) {
+            timer = new Timer();
+            timer.fromJson(session.timer);
+        }
 
         return workoutSession;
     };
